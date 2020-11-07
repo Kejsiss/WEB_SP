@@ -50,6 +50,14 @@
             font-weight: bold;
 
         }
+        #center_button {
+            width: 25%;
+            margin: 0 auto;
+        }
+        #btnOdeslat{
+            background-color: #341C09;
+            color: #FC7307;
+        }
         @media only screen and (min-width:768px) {
             footer{
                 background-color: #341C09;
@@ -89,26 +97,30 @@
         </div>
     </div>
 </nav>
-<div class="container" id="inputTab">
-    <form method="get" class="form-inline">
-        <div class="col-sm-4">
+<div class="container" id="inputTab text-center">
+    <h4 class="text-center">Zaregistruj se aby si mohl využít všechny naše služby!</h4><br>
+    <form method="get" class="form-inline justify-content-center" role="form">
+        <div>
             <div class="form-group">
-                <label for="usr">Jméno:</label>
-                <input type="text" class="form-control" id="usr">
-            </div>
+                <label for="usr" class="col-sm-3"><sup>*</sup>Jméno:</label>
+                <input type="text" class="form-control col-sm-9" id="usr">
+            </div><br>
             <div class="form-group">
-                <label for="surn">Přijmení:</label>
-                <input type="text" class="form-control" id="surn">
-            </div>
+                <label for="surn" class="col-sm-3"><sup>*</sup>Přijmení:&nbsp</label>
+                <input type="text" class="form-control col-sm-9" id="surn">
+            </div><br>
             <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" class="form-control" id="email">
-            </div>
+                <label for="email" class="col-sm-3"><sup>*</sup>Email:&nbsp</label>
+                <input type="email" class="form-control col-sm-9" id="email">
+            </div><br>
             <div class="form-group">
-                <label for="tel">Telefon:</label>
-                <input type="tel" class="form-control" id="tel">
+                <label for="tel" class="col-sm-3">Telefon:&nbsp</label>
+                <input type="tel" class="form-control col-sm-9" id="tel">
+            </div><br>
+            <p>Všechna pole označená symbolem <sup>*</sup> jsou povinná</p><br>
+            <div id="center_button">
+                <button type="submit" name="btnOdeslat" class="btn btn-lg" id="btnOdeslat">Odeslat</button>
             </div>
-            <button class="btn"
         </div>
     </form>
 </div>
