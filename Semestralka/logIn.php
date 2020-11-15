@@ -119,7 +119,7 @@
             </div><br>
             <p>Všechna pole označená symbolem <sup>*</sup> jsou povinná</p><br>
             <div id="center_button">
-                <button type="submit" name="btnOdeslat" class="btn btn-lg" id="btnOdeslat">Zaregistrovat</button>
+                <button type="submit" name="btnOdeslat" class="btn btn-lg" id="btnOdeslat">Odeslat</button>
             </div>
         </div>
     </form>
