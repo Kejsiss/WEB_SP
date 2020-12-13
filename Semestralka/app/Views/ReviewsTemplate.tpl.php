@@ -49,7 +49,7 @@ $tplHeaders = new ZakladHTML();
 // hlavicka
 $tplHeaders->getHTMLHeader($tplData['title']);
 
-$res = "<div class='container text-center'>";
+/*$res = "<div class='container text-center'>";
 
 $res .= "<form method='post'>"
             ."<button type='submit' name='action' value='vypisAll'>[Všechny]</button>"."</form>";
@@ -62,10 +62,10 @@ foreach($tplData['rivers'] as $r){
 
 $res .= "</div>";
 
-echo $res;
+echo $res;*/
 
-/*$showData = "<div class='container'>";
-foreach ($tplData['vypisAll'] as $a){
+$showData = "<div class='container'>";
+foreach ($tplData['vypis'] as $a){
     $showData .= "<h2>$a[nazev]</h2>"
         ."<div>$a[username] alias $a[jmeno] $a[prijmeni]</div>"
         ."<p>Datum sjezdu: $a[datum_sjezdu]</p>"
@@ -73,8 +73,8 @@ foreach ($tplData['vypisAll'] as $a){
 }
 $showData .= "</div>";
 echo $showData;
-*/
 
+/*
 if(isset($tplData['vypis'])){
     $showData = "";
     $showData = "<div class='container'>";
@@ -100,7 +100,7 @@ if(isset($tplData['vypisAll'])){
     $showData .= "</div>";
     echo $showData;
 
-}
+}*/
 
 
 // paticka

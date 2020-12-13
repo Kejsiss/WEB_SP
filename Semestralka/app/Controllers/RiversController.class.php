@@ -34,20 +34,6 @@ class RiversController implements IController
         $tplData['rivers'] = $this->db->getAllRivers();
         //$tplData['vypisAll'] = $this->db->getAllReviews();
 
-        //// neprisel pozadavek na smazani uzivatele?
-        if(isset($_POST['action']) and $_POST['action'] == "vypis"
-            and isset($_POST['id_REKA'])
-        ){
-            // provedu smazani uzivatele
-            $tplData['vypis'] = $this->db->getReviewByRiver(intval($_POST['id_REKA']));
-        }
-
-
-        if(isset($_POST['action']) and $_POST['action'] == "vypisAll"){
-            // provedu smazani uzivatele
-            $tplData['vypisAll'] = $this->db->getAllReviewsRivers();
-        }
-
         //// vypsani prislusne sablony
         // zapnu output buffer pro odchyceni vypisu sablony
         ob_start();

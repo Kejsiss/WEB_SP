@@ -31,17 +31,31 @@ const DIRECTORY_VIEWS = "app\Views";
 
 
 /** Klic defaultni webove stranky. */
-const DEFAULT_WEB_PAGE_KEY = "reky";
+const DEFAULT_WEB_PAGE_KEY = "taboriste";
 
 /** Dostupne webove stranky. */
 const WEB_PAGES = array(
     //// Uvodni stranka ////
     "reky" => array(
-        "title" => "Seznam řek",
+        "title" => "Řeky",
 
         //// kontroler
         "file_name" => "RiversController.class.php",
         "class_name" => "RiversController",
+    ),
+    "taboriste" => array(
+        "title" => "Tábořiště",
+
+        //// kontroler
+        "file_name" => "CampsController.class.php",
+        "class_name" => "CampsController",
+    ),
+    "recenze" => array(
+        "title" => "Recenze",
+
+        //// kontroler
+        "file_name" => "ReviewsController.class.php",
+        "class_name" => "ReviewsController",
     ),
     //// KONEC: Uvodni stranka ////
 

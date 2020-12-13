@@ -7,24 +7,6 @@
 // -> lze testovat bez zbytku aplikace.
 // -> pri vyuziti Twigu se sablona obejde bez PHP.
 
-/*
-////// Po zakomponovani do zbytku aplikace bude tato cast odstranena/zakomentovana  //////
-//// UKAZKA DAT: Uvod bude vypisovat informace z tabulky, ktera ma nasledujici sloupce:
-// id, date, author, title, text
-$tplData['title'] = "Sprava uživatelů (TPL)";
-$tplData['users'] = [
-    array("id_user" => 1, "first_name" => "František", "last_name" => "Noha",
-            "login" => "frnoha", "password" => "Tajne*Heslo", "email" => "fr.noha@ukazka.zcu.cz", "web" => "www.zcu.cz")
-];
-$tplData['delete'] = "Úspěšné mazání.";
-define("DIRECTORY_VIEWS", "../Views");
-const WEB_PAGES = array(
-    "uvod" => array("title" => "Sprava uživatelů (TPL)")
-);
-////// KONEC: Po zakomponovani do zbytku aplikace bude tato cast odstranena/zakomentovana  //////
-*/
-
-
 //// vypis sablony
 // urceni globalnich promennych, se kterymi sablona pracuje
 global $tplData;
@@ -49,61 +31,20 @@ $tplHeaders = new ZakladHTML();
 // hlavicka
 $tplHeaders->getHTMLHeader($tplData['title']);
 
-$res = "<div class='container text-center'>";
-
-$res .= "<form method='post'>"
-            ."<button type='submit' name='action' value='vypisAll'>[Všechny]</button>"."</form>";
+$res = "<h2 class='text-center'>Naše databáze obsahuje následující řeky:</h2><br><div class='container'>";
 
 foreach($tplData['rivers'] as $r){
-    $res .= "<form method='post'>"
-        ."<input type='hidden' name='id_REKA' value='$r[id_REKA]'>"
-        ."<button type='submit' name='action' value='vypis' >[$r[nazev]]</button>"."</form>";
+    $res .= "<h3><a href='index.php?page=recenze/".$r['id_REKA']."'>$r[nazev]</a></h3>"
+        ."<p>Délka řeky: $r[delka] Km</p>"
+        ."<p>Počet jezů na řece: $r[pocet_jezu]</p><hr>";
 }
 
 $res .= "</div>";
 
 echo $res;
 
-/*$showData = "<div class='container'>";
-foreach ($tplData['vypisAll'] as $a){
-    $showData .= "<h2>$a[nazev]</h2>"
-        ."<div>$a[username] alias $a[jmeno] $a[prijmeni]</div>"
-        ."<p>Datum sjezdu: $a[datum_sjezdu]</p>"
-        ."<div>recenze: $a[recenze_reky]</div><hr>";
-}
-$showData .= "</div>";
-echo $showData;
-*/
-
-if(isset($tplData['vypis'])){
-    $showData = "";
-    $showData = "<div class='container'>";
-    foreach($tplData['vypis'] as $a){
-        $showData .= "<h3>$a[username] alias $a[jmeno] $a[prijmeni]</h3>"
-            ."<p>Řeka: $a[nazev]</p>"
-            ."<p>Datum sjezdu: $a[datum_sjezdu]</p>"
-            ."<div>recenze: $a[recenze_reky]</div><hr>";
-
-    }
-    $showData .= "</div>";
-    echo $showData;
-}
-
-if(isset($tplData['vypisAll'])){
-    $showData = "<div class='container'>";
-    foreach ($tplData['vypisAll'] as $a){
-        $showData .= "<h2>$a[nazev]</h2>"
-            ."<div>$a[username] alias $a[jmeno] $a[prijmeni]</div>"
-            ."<p>Datum sjezdu: $a[datum_sjezdu]</p>"
-            ."<div>recenze: $a[recenze_reky]</div><hr>";
-    }
-    $showData .= "</div>";
-    echo $showData;
-
-}
-
 
 // paticka
-$tplHeaders->getHTMLFooter()
+$tplHeaders->getHTMLFooter();
 
 ?>

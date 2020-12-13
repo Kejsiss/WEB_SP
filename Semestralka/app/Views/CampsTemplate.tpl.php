@@ -49,61 +49,24 @@ $tplHeaders = new ZakladHTML();
 // hlavicka
 $tplHeaders->getHTMLHeader($tplData['title']);
 
-$res = "<div class='container text-center'>";
+$res = "<h2 class='text-center'>Naše databáze obsahuje následující tábořiště:</h2><br><div class='container'>";
 
-$res .= "<form method='post'>"
-            ."<button type='submit' name='action' value='vypisAll'>[Všechny]</button>"."</form>";
-
-foreach($tplData['rivers'] as $r){
-    $res .= "<form method='post'>"
-        ."<input type='hidden' name='id_REKA' value='$r[id_REKA]'>"
-        ."<button type='submit' name='action' value='vypis' >[$r[nazev]]</button>"."</form>";
+foreach($tplData['camps'] as $c){
+    $res .= "<h3>$c[nazev]</h3>"
+        ."<p>Kapacita tábořiště: $c[kapacita]</p>"
+        ."<p>Cena za noc: $c[cena_za_noc]</p>"
+        ."<p>Parkoviště: ".(boolval($c['parkoviste']) ? 'Ano' : 'Ne')."</p>"
+        ."<p>WC: ".(boolval($c['wc']) ? 'Ano' : 'Ne')."</p>"
+        ."<p>Sprchy: ".(boolval($c['sprchy']) ? 'Ano' : 'Ne')."</p>"
+        ."<p>Restaurace: ".(boolval($c['restaurace']) ? 'Ano' : 'Ne')."</p><hr>";
 }
 
 $res .= "</div>";
 
 echo $res;
 
-/*$showData = "<div class='container'>";
-foreach ($tplData['vypisAll'] as $a){
-    $showData .= "<h2>$a[nazev]</h2>"
-        ."<div>$a[username] alias $a[jmeno] $a[prijmeni]</div>"
-        ."<p>Datum sjezdu: $a[datum_sjezdu]</p>"
-        ."<div>recenze: $a[recenze_reky]</div><hr>";
-}
-$showData .= "</div>";
-echo $showData;
-*/
-
-if(isset($tplData['vypis'])){
-    $showData = "";
-    $showData = "<div class='container'>";
-    foreach($tplData['vypis'] as $a){
-        $showData .= "<h3>$a[username] alias $a[jmeno] $a[prijmeni]</h3>"
-            ."<p>Řeka: $a[nazev]</p>"
-            ."<p>Datum sjezdu: $a[datum_sjezdu]</p>"
-            ."<div>recenze: $a[recenze_reky]</div><hr>";
-
-    }
-    $showData .= "</div>";
-    echo $showData;
-}
-
-if(isset($tplData['vypisAll'])){
-    $showData = "<div class='container'>";
-    foreach ($tplData['vypisAll'] as $a){
-        $showData .= "<h2>$a[nazev]</h2>"
-            ."<div>$a[username] alias $a[jmeno] $a[prijmeni]</div>"
-            ."<p>Datum sjezdu: $a[datum_sjezdu]</p>"
-            ."<div>recenze: $a[recenze_reky]</div><hr>";
-    }
-    $showData .= "</div>";
-    echo $showData;
-
-}
-
 
 // paticka
-$tplHeaders->getHTMLFooter()
+$tplHeaders->getHTMLFooter();
 
 ?>

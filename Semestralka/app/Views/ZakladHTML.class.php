@@ -71,6 +71,18 @@ class ZakladHTML {
                     text-decoration: underline;
                     cursor: crosshair;
                 }
+                /* Extra small devices (phones, 600px and down) */
+                @media only screen and (min-width: 600px) {
+                    footer{
+                        background-color: #341C09;
+                        margin-bottom: 0;
+                        padding-bottom: 0;
+                        margin-top: 100%;
+                        position: absolute;
+                        bottom: 0;
+                        width: 100%;
+                    }
+                }
             </style>
 
         </head>
@@ -80,7 +92,7 @@ class ZakladHTML {
             <h2 style="color:#341C09;">Zde nalezneš recenze tábořišť a řek, které máš v plánu sjet!</h2>
         </header>
         <nav class="navbar navbar-expand-sm navbar-inverse">
-            <div class="container">
+            /**<div class="container">
                 <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                 <span class="navbar-toggler-icon">
                     <i class="fas fa-bars" style="color:#D4E4F7; font-size:28px;"></i>
@@ -98,7 +110,21 @@ class ZakladHTML {
 
                     </ul>
                 </div>
-            </div>
+            </div>*/
+            <?php
+            // vypis menu
+            foreach(WEB_PAGES as $key => $pInfo){
+                if($key == 'reky'){
+                    echo "<i class='fas fa-water'></i><a href='index.php?page=$key'>$pInfo[title]</a>";
+                }
+                elseif($key == 'taboriste'){
+                    echo "<i class='fas fa-campground'></i><a href='index.php?page=$key'>$pInfo[title]</a>";
+                }
+                elseif ($key == 'recenze'){
+                    echo "<a href='index.php?page=$key'>$pInfo[title]</a>";
+                }
+            }
+            ?>
         </nav>
         <?php
     }

@@ -18,10 +18,12 @@ class ApplicationStart {
      * Spusteni webove aplikace.
      */
     public function appStart(){
+
+        $page = explode("/",$_GET["page"])[0];
         //// test, zda je v URL pozadavku uvedena dostupna stranka, jinak volba defaultni stranky
         // mam spravnou hodnotu na vstupu nebo nastavim defaultni
-        if(isset($_GET["page"]) && array_key_exists($_GET["page"], WEB_PAGES)){
-            $pageKey = $_GET["page"]; // nastavim pozadovane
+        if(isset($page) && array_key_exists($page, WEB_PAGES)){
+            $pageKey = $page; // nastavim pozadovane
         } else {
             $pageKey = DEFAULT_WEB_PAGE_KEY; // defaulti klic
         }

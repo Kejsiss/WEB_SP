@@ -2,7 +2,7 @@
 // nactu rozhrani kontroleru
 require_once(DIRECTORY_CONTROLLERS."/IController.interface.php");
 
-class RiversController implements IController
+class CampsController implements IController
 {
 
     /** @var DatabaseModel $db  Sprava databaze. */
@@ -31,28 +31,14 @@ class RiversController implements IController
 
 
         //// nactu aktulani data uzivatelu
-        $tplData['rivers'] = $this->db->getAllRivers();
-        //$tplData['vypisAll'] = $this->db->getAllReviews();
+        $tplData['camps'] = $this->db->getAllCamps();
 
-        //// neprisel pozadavek na smazani uzivatele?
-        if(isset($_POST['action']) and $_POST['action'] == "vypis"
-            and isset($_POST['id_REKA'])
-        ){
-            // provedu smazani uzivatele
-            $tplData['vypis'] = $this->db->getReviewByRiver(intval($_POST['id_REKA']));
-        }
-
-
-        if(isset($_POST['action']) and $_POST['action'] == "vypisAll"){
-            // provedu smazani uzivatele
-            $tplData['vypisAll'] = $this->db->getAllReviewsRivers();
-        }
 
         //// vypsani prislusne sablony
         // zapnu output buffer pro odchyceni vypisu sablony
         ob_start();
         // pripojim sablonu, cimz ji i vykonam
-        require(DIRECTORY_VIEWS ."/RiversTemplate.tpl.php");
+        require(DIRECTORY_VIEWS ."/CampsTemplate.tpl.php");
         // ziskam obsah output bufferu, tj. vypsanou sablonu
         $obsah = ob_get_clean();
 
