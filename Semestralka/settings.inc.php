@@ -31,11 +31,18 @@ const DIRECTORY_VIEWS = "app\Views";
 
 
 /** Klic defaultni webove stranky. */
-const DEFAULT_WEB_PAGE_KEY = "taboriste";
+const DEFAULT_WEB_PAGE_KEY = "domov";
 
 /** Dostupne webove stranky. */
 const WEB_PAGES = array(
-    //// Uvodni stranka ////
+
+    "domov" => array(
+        "title" => "Domů",
+
+        //// kontroler
+        "file_name" => "HomeController.class.php",
+        "class_name" => "HomeController",
+    ),
     "reky" => array(
         "title" => "Řeky",
 
@@ -50,14 +57,35 @@ const WEB_PAGES = array(
         "file_name" => "CampsController.class.php",
         "class_name" => "CampsController",
     ),
-    "recenze" => array(
-        "title" => "Recenze",
+
+    "login" => array(
+        "title" => "Přihlášení",
 
         //// kontroler
-        "file_name" => "ReviewsController.class.php",
-        "class_name" => "ReviewsController",
+        "file_name" => "LoginController.class.php",
+        "class_name" => "LoginController",
     ),
-    //// KONEC: Uvodni stranka ////
+    "register" => array(
+        "title" => "Registrace",
+
+        //// kontroler
+        "file_name" => "RegisterController.class.php",
+        "class_name" => "RegisterController",
+    ),
+    "recenzeRek" => array(
+        "title" => "Recenze řek",
+
+        //// kontroler
+        "file_name" => "ReviewsRiversController.class.php",
+        "class_name" => "ReviewsRiversController",
+    ),
+    "recenzeKempu" => array(
+        "title" => "Recenze kempů",
+
+        //// kontroler
+        "file_name" => "ReviewsCampsController.class.php",
+        "class_name" => "ReviewsCampsController",
+    ),
 
 );
 

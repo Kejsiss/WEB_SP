@@ -35,6 +35,7 @@ class ZakladHTML {
                 nav{
                     background-color: #341C09;
                     margin-bottom: 2%;
+
                 }
                 footer{
                     background-color: #341C09;
@@ -44,6 +45,10 @@ class ZakladHTML {
                 }
                 h1{
                     color: #341C09;
+                    font-weight: bold;
+                }
+                h5{
+                    color: #FC7307;
                     font-weight: bold;
                 }
                 a{
@@ -56,6 +61,7 @@ class ZakladHTML {
                 i{
                     color: #236AB9;
                     font-size: 20px;
+                    padding: 5px;
                 }
                 .navbar-toggler{
                     background-color:#FC7307;
@@ -71,8 +77,11 @@ class ZakladHTML {
                     text-decoration: underline;
                     cursor: crosshair;
                 }
+                li{
+                    padding: 15px;
+                }
                 /* Extra small devices (phones, 600px and down) */
-                @media only screen and (min-width: 600px) {
+                /*@media only screen and (min-width: 600px) {
                     footer{
                         background-color: #341C09;
                         margin-bottom: 0;
@@ -82,7 +91,7 @@ class ZakladHTML {
                         bottom: 0;
                         width: 100%;
                     }
-                }
+                }*/
             </style>
 
         </head>
@@ -92,7 +101,7 @@ class ZakladHTML {
             <h2 style="color:#341C09;">Zde nalezneš recenze tábořišť a řek, které máš v plánu sjet!</h2>
         </header>
         <nav class="navbar navbar-expand-sm navbar-inverse">
-            /**<div class="container">
+            <div class="container">
                 <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                 <span class="navbar-toggler-icon">
                     <i class="fas fa-bars" style="color:#D4E4F7; font-size:28px;"></i>
@@ -100,31 +109,36 @@ class ZakladHTML {
                 </button>
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                     <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link" href="index.html"><i class='fas fa-home'></i>  Domů</a></li>
-                        <li class="nav-item"><a class="nav-link" href="camps.html"><i class='fas fa-campground'></i>    Tabořiště</a></li>
-                        <li class="nav-item"><a class="nav-link" href="camps.html"><i class='fas fa-water'></i>    Řeky</a></li>
+                        <?php
+                        // vypis menu
+                        foreach(WEB_PAGES as $key => $pInfo){
+                            if($key == 'reky'){
+                                echo "<li class='nav-item'><i class='fas fa-water'></i><a href='index.php?page=$key'>$pInfo[title]</a></li>";
+                            }
+                            elseif($key == 'taboriste'){
+                                echo "<li class='nav-item'><i class='fas fa-campground'></i><a href='index.php?page=$key'>$pInfo[title]</a></li>";
+                            }
+                            elseif ($key == 'domov'){
+                                echo "<li class='nav-item'><i class='fas fa-home'></i><a href='index.php?page=$key'>$pInfo[title]</a></li>";
+                            }
+                        }
+                        ?>
                     </ul>
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"><a class="nav-link" href="../index.php?page=login"><i class='fas fa-user-circle'></i>    Přihlášení</a></li>
-                        <li class="nav-item"><a class="nav-link" href="../index.php?page=registrace"><i class='fas fa-user'></i>    Zaregistrovat</a></li>
-
+                        <?php
+                        // vypis menu
+                        foreach(WEB_PAGES as $key => $pInfo){
+                            if($key == 'login'){
+                                echo "<li class='nav-item'><i class='fas fa-user-circle'></i><a href='index.php?page=$key'>$pInfo[title]</a></li>";
+                            }
+                            elseif($key == 'register'){
+                                echo "<li class='nav-item'><i class='fas fa-user'></i><a href='index.php?page=$key'>$pInfo[title]</a></li>";
+                            }
+                        }
+                        ?>
                     </ul>
                 </div>
-            </div>*/
-            <?php
-            // vypis menu
-            foreach(WEB_PAGES as $key => $pInfo){
-                if($key == 'reky'){
-                    echo "<i class='fas fa-water'></i><a href='index.php?page=$key'>$pInfo[title]</a>";
-                }
-                elseif($key == 'taboriste'){
-                    echo "<i class='fas fa-campground'></i><a href='index.php?page=$key'>$pInfo[title]</a>";
-                }
-                elseif ($key == 'recenze'){
-                    echo "<a href='index.php?page=$key'>$pInfo[title]</a>";
-                }
-            }
-            ?>
+            </div>
         </nav>
         <?php
     }

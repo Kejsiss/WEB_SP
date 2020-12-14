@@ -34,7 +34,7 @@ $tplHeaders->getHTMLHeader($tplData['title']);
 $res = "<h2 class='text-center'>Naše databáze obsahuje následující řeky:</h2><br><div class='container'>";
 
 foreach($tplData['rivers'] as $r){
-    $res .= "<h3><a href='index.php?page=recenzeRek/".$r['id_REKA']."'>$r[nazev]</a></h3>"
+    $res .= "<h3><a href='index.php?page=recenze/".$r['id_REKA']."'>$r[nazev]</a></h3>"
         ."<p>Délka řeky: $r[delka] Km</p>"
         ."<p>Počet jezů na řece: $r[pocet_jezu]</p><hr>";
 }

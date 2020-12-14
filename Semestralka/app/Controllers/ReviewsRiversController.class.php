@@ -2,7 +2,7 @@
 // nactu rozhrani kontroleru
 require_once(DIRECTORY_CONTROLLERS."/IController.interface.php");
 
-class ReviewsController implements IController
+class ReviewsRiversController implements IController
 {
 
     /** @var DatabaseModel $db  Sprava databaze. */
@@ -31,7 +31,7 @@ class ReviewsController implements IController
 
         $id = explode("/",$_GET["page"])[1];
 
-        $tplData['vypis'] = $this->db->getReviewByRiver($id);
+        $tplData['vypisRek'] = $this->db->getReviewByRiver($id);
 
         /*if(isset($_POST['action']) and $_POST['action'] == "vypis"
             and isset($_POST['id_REKA'])
@@ -50,7 +50,7 @@ class ReviewsController implements IController
         // zapnu output buffer pro odchyceni vypisu sablony
         ob_start();
         // pripojim sablonu, cimz ji i vykonam
-        require(DIRECTORY_VIEWS ."/ReviewsTemplate.tpl.php");
+        require(DIRECTORY_VIEWS ."/ReviewsRiversTemplate.tpl.php");
         // ziskam obsah output bufferu, tj. vypsanou sablonu
         $obsah = ob_get_clean();
 

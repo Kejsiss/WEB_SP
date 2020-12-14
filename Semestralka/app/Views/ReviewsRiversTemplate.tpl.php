@@ -40,33 +40,24 @@ $tplHeaders = new ZakladHTML();
 
     <!-- Vypis obsahu sablony -->
 <?php
-// muze se hodit:
-//<form method='post'>
-//    <input type='hidden' name='id_user' value=''>
-//    <button type='submit' name='action' value='delete'>Smazat</button>
-//</form>
+
 
 // hlavicka
 $tplHeaders->getHTMLHeader($tplData['title']);
 
-$res = "<h2 class='text-center'>Naše databáze obsahuje následující tábořiště:</h2><br><div class='container'>";
 
-foreach($tplData['camps'] as $c){
-    $res .= "<h3><a href='index.php?page=recenzeKempu/".$c['id_TABORISTE']."'>$c[nazev]</a></h3>"
-        ."<p>Kapacita tábořiště: $c[kapacita]</p>"
-        ."<p>Cena za noc: $c[cena_za_noc]</p>"
-        ."<p>Parkoviště: ".(boolval($c['parkoviste']) ? 'Ano' : 'Ne')."</p>"
-        ."<p>WC: ".(boolval($c['wc']) ? 'Ano' : 'Ne')."</p>"
-        ."<p>Sprchy: ".(boolval($c['sprchy']) ? 'Ano' : 'Ne')."</p>"
-        ."<p>Restaurace: ".(boolval($c['restaurace']) ? 'Ano' : 'Ne')."</p><hr>";
+$showData = "<div class='container'>";
+foreach ($tplData['vypisRek'] as $a){
+    $showData .= "<h5>$a[username] alias $a[jmeno] $a[prijmeni]</h5><hr>"
+        ."<p>Datum sjezdu: $a[datum_sjezdu]</p>"
+        ."<div>$a[recenze_reky]</div><hr style='border-top: 1px solid black;'>";
 }
+$showData .= "</div>";
+echo $showData;
 
-$res .= "</div>";
-
-echo $res;
 
 
 // paticka
-$tplHeaders->getHTMLFooter();
+$tplHeaders->getHTMLFooter()
 
 ?>

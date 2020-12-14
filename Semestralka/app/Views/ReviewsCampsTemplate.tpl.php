@@ -40,67 +40,21 @@ $tplHeaders = new ZakladHTML();
 
     <!-- Vypis obsahu sablony -->
 <?php
-// muze se hodit:
-//<form method='post'>
-//    <input type='hidden' name='id_user' value=''>
-//    <button type='submit' name='action' value='delete'>Smazat</button>
-//</form>
+
 
 // hlavicka
 $tplHeaders->getHTMLHeader($tplData['title']);
 
-/*$res = "<div class='container text-center'>";
-
-$res .= "<form method='post'>"
-            ."<button type='submit' name='action' value='vypisAll'>[Všechny]</button>"."</form>";
-
-foreach($tplData['rivers'] as $r){
-    $res .= "<form method='post'>"
-        ."<input type='hidden' name='id_REKA' value='$r[id_REKA]'>"
-        ."<button type='submit' name='action' value='vypis' >[$r[nazev]]</button>"."</form>";
-}
-
-$res .= "</div>";
-
-echo $res;*/
 
 $showData = "<div class='container'>";
-foreach ($tplData['vypis'] as $a){
-    $showData .= "<h2>$a[nazev]</h2>"
-        ."<div>$a[username] alias $a[jmeno] $a[prijmeni]</div>"
-        ."<p>Datum sjezdu: $a[datum_sjezdu]</p>"
-        ."<div>recenze: $a[recenze_reky]</div><hr>";
+foreach ($tplData['vypisKempu'] as $a){
+    $showData .= "<h5>$a[username] alias $a[jmeno] $a[prijmeni]</h5><hr>"
+        ."<p>Datum utáboření: $a[datum_utaboreni]</p>"
+        ."<div>$a[recenze_taboriste]</div><hr style='border-top: 1px solid black;'>";
 }
 $showData .= "</div>";
 echo $showData;
 
-/*
-if(isset($tplData['vypis'])){
-    $showData = "";
-    $showData = "<div class='container'>";
-    foreach($tplData['vypis'] as $a){
-        $showData .= "<h3>$a[username] alias $a[jmeno] $a[prijmeni]</h3>"
-            ."<p>Řeka: $a[nazev]</p>"
-            ."<p>Datum sjezdu: $a[datum_sjezdu]</p>"
-            ."<div>recenze: $a[recenze_reky]</div><hr>";
-
-    }
-    $showData .= "</div>";
-    echo $showData;
-}
-
-if(isset($tplData['vypisAll'])){
-    $showData = "<div class='container'>";
-    foreach ($tplData['vypisAll'] as $a){
-        $showData .= "<h2>$a[nazev]</h2>"
-            ."<div>$a[username] alias $a[jmeno] $a[prijmeni]</div>"
-            ."<p>Datum sjezdu: $a[datum_sjezdu]</p>"
-            ."<div>recenze: $a[recenze_reky]</div><hr>";
-    }
-    $showData .= "</div>";
-    echo $showData;
-
-}*/
 
 
 // paticka

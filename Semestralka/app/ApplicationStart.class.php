@@ -19,14 +19,18 @@ class ApplicationStart {
      */
     public function appStart(){
 
-        $page = explode("/",$_GET["page"])[0];
-        //// test, zda je v URL pozadavku uvedena dostupna stranka, jinak volba defaultni stranky
-        // mam spravnou hodnotu na vstupu nebo nastavim defaultni
-        if(isset($page) && array_key_exists($page, WEB_PAGES)){
-            $pageKey = $page; // nastavim pozadovane
-        } else {
-            $pageKey = DEFAULT_WEB_PAGE_KEY; // defaulti klic
+        if(isset($_GET['page'])){
+            $page = explode("/",$_GET["page"])[0];
+            if(array_key_exists($page, WEB_PAGES)){
+                $pageKey = $page;
+            }else{
+                $pageKey = DEFAULT_WEB_PAGE_KEY;
+            }
         }
+        else{
+            $pageKey = DEFAULT_WEB_PAGE_KEY;
+        }
+
         // pripravim si data ovladace
         $pageInfo = WEB_PAGES[$pageKey];
 
