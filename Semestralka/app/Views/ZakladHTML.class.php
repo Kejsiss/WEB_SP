@@ -66,20 +66,10 @@ class ZakladHTML {
                 .navbar-toggler{
                     background-color:#FC7307;
                 }
-                button {
-                    background: none!important;
-                    border: none;
-                    padding: 0!important;
-                    /*optional*/
-                    font-family: arial, sans-serif;
-                    /*input has OS specific font-family*/
-                    color: #069;
-                    text-decoration: underline;
-                    cursor: crosshair;
-                }
                 li{
                     padding: 15px;
                 }
+
                 /* Extra small devices (phones, 600px and down) */
                 /*@media only screen and (min-width: 600px) {
                     footer{

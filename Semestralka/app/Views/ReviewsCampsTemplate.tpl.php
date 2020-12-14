@@ -48,7 +48,7 @@ $tplHeaders->getHTMLHeader($tplData['title']);
 
 $showData = "<div class='container'>";
 foreach ($tplData['vypisKempu'] as $a){
-    $showData .= "<h5>$a[username] alias $a[jmeno] $a[prijmeni]</h5><hr>"
+    $showData .= "<h5><i class='fas fa-user'></i> $a[username] alias $a[jmeno] $a[prijmeni]</h5><hr>"
         ."<p>Datum utáboření: $a[datum_utaboreni]</p>"
         ."<div>$a[recenze_taboriste]</div><hr style='border-top: 1px solid black;'>";
 }

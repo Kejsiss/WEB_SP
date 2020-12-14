@@ -29,10 +29,22 @@ class RegisterController implements IController
         // nazev
         $tplData['title'] = $pageTitle;
 
+        $tplData['rights'] = $this->db->getAllRights();
 
-        //// nactu aktulani data uzivatelu
-        $tplData['rivers'] = $this->db->getAllRivers();
-        //$tplData['vypisAll'] = $this->db->getAllReviews();
+        if(isset($_POST['action']) and $_POST['action'] == "addUser" and isset($_POST['login']) && isset($_POST['heslo'])
+            && isset($_POST['usrn']) && isset($_POST['surn']) && isset($_POST['mail']) && isset($_POST['pravo'])
+            && $_POST['login'] != "" && $_POST['heslo'] != "" && $_POST['usrn'] != "" && $_POST['surn'] != "" && $_POST['mail'] != ""
+            && $_POST['pravo'] > 0
+        ){
+
+            // provedu smazani uzivatele
+            $ok = $this->db->addUser($_POST['login'],$_POST['heslo'],$_POST['usrn'],$_POST['surn'],$_POST['mail'],$_POST['pravo']);
+            if($ok){
+                $tplData['addUser'] = "OK: Uživatel $_POST[login] byl přidán do databáze.";
+            } else {
+                $tplData['addUser'] = "CHYBA: Uživatele $_POST[login] se nepodařilo přidat do databáze.";
+            }
+        }
 
         //// vypsani prislusne sablony
         // zapnu output buffer pro odchyceni vypisu sablony

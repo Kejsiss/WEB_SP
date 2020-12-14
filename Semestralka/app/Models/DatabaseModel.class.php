@@ -18,18 +18,6 @@ class DatabaseModel {
         $this->pdo->exec("set names utf8");
     }
 
-    /**
-     *  Vrati seznam vsech pohadek pro uvodni stranku.
-     *  @return array Obsah uvodu.
-     */
-    public function getAllIntroductions():array {
-        // pripravim dotaz
-        $q = "SELECT * FROM ".TABLE_INTRODUCTION;
-        // provedu a vysledek vratim jako pole
-        // protoze je o uzkazku, tak netestuju, ze bylo neco vraceno
-        return $this->pdo->query($q)->fetchAll();
-    }
-    
     
     /**
      *  Vrati seznam vsech uzivatelu pro spravu uzivatelu.
@@ -37,7 +25,7 @@ class DatabaseModel {
      */
     public function getAllUsers():array {
         // pripravim dotaz
-        $q = "SELECT * FROM ".TABLE_USER;
+        $q = "SELECT * FROM ".TABLE_UZIVATEL;
         // provedu a vysledek vratim jako pole
         // protoze je o uzkazku, tak netestuju, ze bylo neco vraceno
         return $this->pdo->query($q)->fetchAll();
@@ -62,6 +50,130 @@ class DatabaseModel {
         }
     }
 
+    public function addUser(string $login, string $heslo, string $jmeno, string $prijmeni, string $email, int $idPravo):bool{
+
+        $q = "INSERT INTO ".TABLE_UZIVATEL."(username,heslo,jmeno,prijmeni,email,id_PRAVO) 
+        VALUES('$login', '$heslo', '$jmeno', '$prijmeni','$email', $idPravo)";
+
+            // provedu dotaz
+        $res = $this->pdo->query($q);
+        // pokud neni false, tak vratim vysledek, jinak null
+        if ($res) {
+            // neni false
+            return true;
+        } else {
+            // je false
+            return false;
+        }
+    }
+
+    public function addRiver(string $nazev, int $delka, int $pocet_jezu):bool{
+
+        $q = "INSERT INTO ".TABLE_REKA."(nazev,delka,pocet_jezu) 
+        VALUES('$nazev', $delka, $pocet_jezu)";
+
+        // provedu dotaz
+        $res = $this->pdo->query($q);
+        // pokud neni false, tak vratim vysledek, jinak null
+        if ($res) {
+            // neni false
+            return true;
+        } else {
+            // je false
+            return false;
+        }
+    }
+
+    public function addCamp(string $nazev, int $kapacita, int $cena_za_noc, int $parkoviste, int $wc, int $sprchy, int $restaurace):bool{
+
+        $q = "INSERT INTO ".TABLE_TABORISTE."(nazev,kapacita,cena_za_noc,parkoviste,wc,sprchy,restaurace) 
+        VALUES('$nazev', $kapacita, $cena_za_noc, $parkoviste, $wc, $sprchy, $restaurace)";
+
+        // provedu dotaz
+        $res = $this->pdo->query($q);
+        // pokud neni false, tak vratim vysledek, jinak null
+        if ($res) {
+            // neni false
+            return true;
+        } else {
+            // je false
+            return false;
+        }
+    }
+
+    public function addRiverReview(int $userId, date $date, string $review, string $nazevReky):bool{
+
+        $RekaId = $this->getRiverIdByName($nazevReky);
+
+        $q = "INSERT INTO ".TABLE_SJIZDI."(recenze_reky,datum_sjezdu,id_uzivatel,id_reka) 
+        VALUES('$review', $date, $userId, $RekaId)";
+
+        // provedu dotaz
+        $res = $this->pdo->query($q);
+        // pokud neni false, tak vratim vysledek, jinak null
+        if ($res) {
+            // neni false
+            return true;
+        } else {
+            // je false
+            return false;
+        }
+
+    }
+
+    public function addCampReview(date $date, string $review, string $nazevKempu, string $nazevReky):bool{
+
+        //tohle mozna nebude fungovat, viz slozeni databaze, potreba sjizdi
+        $RekaId = $this->getRiverIdByName($nazevReky);
+        $KempId = $this->getCampIdByName($nazevKempu);
+
+        $q = "INSERT INTO ".TABLE_TABORISTE."(datum_utaboreni,recenze_taboriste,id_sjizdi,id_taboriste) 
+        VALUES($date, '$review', $RekaId, $KempId)";
+
+        // provedu dotaz
+        $res = $this->pdo->query($q);
+        // pokud neni false, tak vratim vysledek, jinak null
+        if ($res) {
+            // neni false
+            return true;
+        } else {
+            // je false
+            return false;
+        }
+
+    }
+
+    public function getCampIdByName(string $nazevKempu):int{
+        $q = "SELECT ".TABLE_TABORISTE.".id_TABORISTE FROM ".TABLE_TABORISTE." WHERE ".TABLE_TABORISTE.".nazev = '$nazevKempu'";
+        return $q;
+    }
+
+    public function getRiverIdByName(string $nazevReky):int{
+        $q = "SELECT ".TABLE_REKA.".id_REKA FROM ".TABLE_REKA." WHERE ".TABLE_REKA.".nazev = '$nazevReky'";
+        return $q;
+    }
+
+    public function getRiversReviewsByUser(int $userId):array{
+
+        $q = "SELECT ".TABLE_REKA.".nazev, ".TABLE_SJIZDI.".recenze_reky, ".TABLE_SJIZDI.".datum_sjezdu FROM ".TABLE_REKA.", "
+            .TABLE_SJIZDI.", ".TABLE_UZIVATEL." WHERE ".TABLE_REKA.".id_REKA = ".TABLE_SJIZDI.".id_reka AND "
+            .TABLE_SJIZDI.".id_uzivatel = ".TABLE_UZIVATEL.".id_UZIVATEL AND ".TABLE_UZIVATEL.".id_UZIVATEL = $userId";
+        return $this->pdo->query($q)->fetchAll();
+    }
+
+    public function getCampsReviewsByUser(int $userId):array{
+
+        $q = "SELECT ".TABLE_TABORISTE.".nazev, ".TABLE_TABORI.".recenze_taboriste, ".TABLE_TABORI.".datum_utaboreni FROM ".TABLE_TABORISTE.", "
+            .TABLE_TABORI.", ".TABLE_UZIVATEL." WHERE ".TABLE_TABORISTE.".id_TABORISTE = ".TABLE_TABORI.".id_taboriste AND "
+            .TABLE_TABORI.".id_uzivatel = ".TABLE_UZIVATEL.".id_UZIVATEL AND ".TABLE_UZIVATEL.".id_UZIVATEL = $userId";
+        return $this->pdo->query($q)->fetchAll();
+
+    }
+
+    public function getAllRights():array{
+        $q = "SELECT * FROM ".TABLE_PRAVO;
+        return $this->pdo->query($q)->fetchAll();
+    }
 
     public function getAllRivers():array{
         $q = "SELECT * FROM ".TABLE_REKA;
@@ -83,7 +195,6 @@ class DatabaseModel {
         return $this->pdo->query($q)->fetchAll();
     }
 
-    //TO DO pod tim
 
     public function getAllCamps():array{
         $q = "SELECT * FROM ".TABLE_TABORISTE;

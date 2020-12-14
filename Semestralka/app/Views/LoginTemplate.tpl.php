@@ -31,18 +31,57 @@ $tplHeaders = new ZakladHTML();
 // hlavicka
 $tplHeaders->getHTMLHeader($tplData['title']);
 
-$res = "<h2 class='text-center'>Naše databáze obsahuje následující řeky:</h2><br><div class='container'>";
+/*if(!$myDB->isUserLogged()){*/
+    ?>
+    <div class="container" id="inputTab text-center">
+        <h4 class="text-center">Zde se můžeš přihlásit!</h4><br>
+        <form method="POST" action="" class="form-inline justify-content-center" role="form">
+            <div>
+                <div class="form-group">
+                    <label for="log" class="col-sm-3"><sup>*</sup>Login:&nbsp</label>
+                    <input type="text" class="form-control col-sm-9" id="log" name="login">
+                </div><br>
+                <div class="form-group">
+                    <label for="pass" class="col-sm-3"><sup>*</sup>Heslo:&nbsp</label>
+                    <input type="password" class="form-control col-sm-9" id="pass" name="heslo">
+                </div><br>
+                <div style="text-align:center;">
+                    <button type='submit' name='action' value='logIn' class="btn" style="background-color: #236AB9; color: #D4E4F7">Registrovat</button>
+                </div>
+            </div>
+        </form>
+        <br>
+        <h5 class="text-center">Nemáš ještě účet? Vytvoř si nový <a href="index.php?page=register" style="color: #236AB9">zde!</a>   </h5>
+    </div>
+    <br>
+    <?php
+    ///////////// KONEC: PRO NEPRIHLASENE UZIVATELE ///////////////
 
-foreach($tplData['rivers'] as $r){
-    $res .= "<h3><a href='index.php?page=recenze/".$r['id_REKA']."'>$r[nazev]</a></h3>"
-        ."<p>Délka řeky: $r[delka] Km</p>"
-        ."<p>Počet jezů na řece: $r[pocet_jezu]</p><hr>";
-}
+//} else {
 
-$res .= "</div>";
+    ///////////// PRO PRIHLASENE UZIVATELE /////////////
+    // ziskam nazev prava uzivatele, abych ho mohl vypsat
+    /*$pravo = $myDB->getRightById($user["id_pravo"]);
+    // ziskam nazev
+    $pravoNazev = ($pravo == null) ? "*Neznámé*" : $pravo['nazev'];
+*/
+ /*   ?>
+    <h2>Přihlášený uživatel</h2>
 
-echo $res;
+    Login: <?php echo $user['username'] ; ?><br>
+    Jméno: <?php echo $user['jmeno'] ; ?><br>
+    Přijmení: <?php echo $user['prijmeni'] ; ?><br>
+    E-mail: <?php echo $user['email'] ; ?><br>
+    Právo: <?php echo $pravoNazev ; ?><br>
+    <br>
 
+    Odhlášení uživatele:
+    <form action="" method="POST">
+        <input type="hidden" name="action" value="logout">
+        <input type="submit" name="potvrzeni" value="Odhlásit">
+    </form>
+    <?php*/
+//}
 
 // paticka
 $tplHeaders->getHTMLFooter();

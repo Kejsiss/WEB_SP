@@ -22,28 +22,72 @@ $tplHeaders = new ZakladHTML();
 
     <!-- Vypis obsahu sablony -->
 <?php
-// muze se hodit:
-//<form method='post'>
-//    <input type='hidden' name='id_user' value=''>
-//    <button type='submit' name='action' value='delete'>Smazat</button>
-//</form>
 
 // hlavicka
 $tplHeaders->getHTMLHeader($tplData['title']);
 
-$res = "<h2 class='text-center'>Naše databáze obsahuje následující řeky:</h2><br><div class='container'>";
-
-foreach($tplData['rivers'] as $r){
-    $res .= "<h3><a href='index.php?page=recenze/".$r['id_REKA']."'>$r[nazev]</a></h3>"
-        ."<p>Délka řeky: $r[delka] Km</p>"
-        ."<p>Počet jezů na řece: $r[pocet_jezu]</p><hr>";
+if(isset($tplData['addUser'])){
+    echo "<div class='alert alert-info'>$tplData[addUser]</div>";
 }
 
-$res .= "</div>";
+///////////// PRO NEPRIHLASENE UZIVATELE ///////////////
+/*if(!$myDB->isUserLogged()){*/
+    ?>
+    <div class="container" id="inputTab text-center">
+        <h4 class="text-center">Zaregistruj se aby si mohl využít všechny naše služby!</h4><br>
+        <form method="POST" action="" class="form-inline justify-content-center" role="form">
+            <div>
+                <div class="form-group">
+                    <label for="log" class="col-sm-3"><sup>*</sup>Login:&nbsp</label>
+                    <input type="text" class="form-control col-sm-9" id="log" name="login">
+                </div><br>
+                <div class="form-group">
+                    <label for="pass" class="col-sm-3"><sup>*</sup>Heslo:&nbsp</label>
+                    <input type="password" class="form-control col-sm-9" id="pass" name="heslo">
+                </div><br>
+                <div class="form-group">
+                    <label for="usr" class="col-sm-3"><sup>*</sup>Jméno:&nbsp</label>
+                    <input type="text" class="form-control col-sm-9" id="usr" name="usrn">
+                </div><br>
+                <div class="form-group">
+                    <label for="sur" class="col-sm-3"><sup>*</sup>Přijmení:&nbsp</label>
+                    <input type="text" class="form-control col-sm-9" id="sur" name="surn">
+                </div><br>
+                <div class="form-group">
+                    <label for="email" class="col-sm-3"><sup>*</sup>Email:&nbsp</label>
+                    <input type="email" class="form-control col-sm-9" id="email" name="mail">
+                </div><br>
+                <div class="form-group">
+                    <label for="role" class="col-sm-3">Role:&nbsp</label>
+                    <select name="pravo" id="role">
+                        <?php
+                        // ziskam vsechna prava
+                        // projdu je a vypisu
+                        foreach($tplData['rights'] as $r){
+                            echo "<option value='$r[id_PRAVO]'>$r[nazev]</option>";
+                        }
+                        ?>
+                    </select>
+                </div><br>
+                <p>Všechna pole označená symbolem <sup>*</sup> jsou povinná</p><br>
+                <div style="text-align:center;">
+                    <button type='submit' name='action' value='addUser' class="btn" style="background-color: #236AB9; color: #D4E4F7">Registrovat</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <br>
+    <?php
+    ///////////// KONEC: PRO NEPRIHLASENE UZIVATELE ///////////////
+/*} else {
+///////////// PRO PRIHLASENE UZIVATELE ///////////////
+?>
+<div>
+    <b>Přihlášený uživatel se nemůže znovu registrovat.</b>
+</div>
 
-echo $res;
-
-
+<?php
+    }*/
 // paticka
 $tplHeaders->getHTMLFooter();
 

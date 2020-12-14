@@ -30,9 +30,31 @@ class LoginController implements IController
         $tplData['title'] = $pageTitle;
 
 
-        //// nactu aktulani data uzivatelu
-        $tplData['rivers'] = $this->db->getAllRivers();
-        //$tplData['vypisAll'] = $this->db->getAllReviews();
+        // zpracovani odeslanych formularu
+        if(isset($_POST['action'])){
+            // prihlaseni
+            if($_POST['action'] == 'login' && isset($_POST['login']) && isset($_POST['heslo'])){
+                // pokusim se prihlasit uzivatele
+                /*$res = $myDB->userLogin($_POST['login'], $_POST['heslo']);
+                if($res){
+                    echo "OK: Uživatel byl přihlášen.";
+                } else {
+                    echo "ERROR: Přihlášení uživatele se nezdařilo.";
+                }*/
+            }
+            // odhlaseni
+            else if($_POST['action'] == 'logout'){
+                // odhlasim uzivatele
+                /*$myDB->userLogout();
+                echo "OK: Uživatel byl odhlášen.";*/
+            }
+            // neznama akce
+            else {
+                echo "WARNING: Neznámá akce.";
+            }
+            echo "<br>";
+        }
+
 
         //// vypsani prislusne sablony
         // zapnu output buffer pro odchyceni vypisu sablony
