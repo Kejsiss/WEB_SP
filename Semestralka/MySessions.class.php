@@ -4,53 +4,69 @@
  *  Objekt pro praci se Session.
  *  @author Michal Nykl
  */
-class MySession{
-    
-    /**
-     *  Pri vytvoreni objektu je zahajena session.
-     */
-    public function __construct(){
-        session_start(); // zahajim
-    }
-    
-    /**
-     *  Funkce pro ulozeni hodnoty do session.
-     *  @param string $name     Jmeno atributu.
-     *  @param mixed $value    Hodnota
-     */
-    public function addSession($name, $value){
-        $_SESSION[$name] = $value;
-    }
-    
-    /**
-     *  Vrati hodnotu dane session nebo null, pokud session neni nastavena.
-     *  @param string $name Jmeno atributu.
-     *  @return mixed
-     */
-    public function readSession($name){
-        // existuje dany atribut v session
-        if($this->isSessionSet($name)){
-            return $_SESSION[$name];
+class MySessions{
+
+    public static function sessionStarted() {
+        if(session_id() == '') {
+            return false;
         } else {
-            return null;
+            return true;
         }
     }
-    
-    /**
-     *  Je session nastavena?
-     *  @param string $name  Jmeno atributu.
-     *  @return boolean
-     */
-    public function isSessionSet($name){
-        return isset($_SESSION[$name]);
+
+    public static function sessionExists($session) {
+        if(self::sessionStarted() == false) {
+            session_start();
+        }
+        if(isset($_SESSION[$session])) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    /**
-     *  Odstrani danou session.
-     *  @param string $name Jmeno atributu.
-     */
-    public function removeSession($name){
-        unset($_SESSION[$name]);
+    public static function setSession($session, $value) {
+        try{
+            if(self::sessionStarted() != true) {
+                session_start();
+            }
+            $_SESSION[$session] = $value;
+            if(self::sessionExists($session) == false) {
+                throw new Exception('Unable to Create Session');
+            }
+        }catch (Exception $ex){
+            die($ex->getMessage());
+        }
+
+    }
+
+    public static function getSession($session) {
+        try{
+            if(self::sessionStarted() != true) {
+                session_start();
+            }
+            if(isset($_SESSION[$session])) {
+                return $_SESSION[$session];
+            } else {
+                throw new Exception('Session Does Not Exist');
+            }
+        }catch (Exception $ex){
+            die($ex->getMessage());
+        }
+
+    }
+
+    public static function removeSession($session) {
+        try{
+            if(isset($_SESSION[$session])) {
+                unset($_SESSION[$session]);
+            } else {
+                throw new Exception('Session Does Not Exist');
+            }
+        }catch (Exception $ex){
+            die($ex->getMessage());
+        }
+
     }
     
 }

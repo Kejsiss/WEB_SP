@@ -6,15 +6,17 @@ class LoginController implements IController
 {
 
     /** @var DatabaseModel $db  Sprava databaze. */
-    private $db;
+    private $um;
 
     /**
      * Inicializace pripojeni k databazi.
      */
     public function __construct() {
         // inicializace prace s DB
-        require_once (DIRECTORY_MODELS ."/DatabaseModel.class.php");
-        $this->db = new DatabaseModel();
+        //require_once (DIRECTORY_MODELS ."/DatabaseModel.class.php");
+        require_once (DIRECTORY_MODELS ."/UserModel.class.php");
+        require_once("MySessions.class.php");
+        $this->um= new UserModel();
     }
 
     /**
@@ -29,30 +31,31 @@ class LoginController implements IController
         // nazev
         $tplData['title'] = $pageTitle;
 
+        if(MySessions::sessionExists('current_user_id')){
+            $this->um->userLogout();
+            header("LOCATION:http://localhost/dashboard/phpZkouska/WEB_SP/Semestralka/index.php?page=domov");
+        }
+
+        $tplData['isUserLogged'] = $this->um->isUserLogged();
+
 
         // zpracovani odeslanych formularu
         if(isset($_POST['action'])){
             // prihlaseni
-            if($_POST['action'] == 'login' && isset($_POST['login']) && isset($_POST['heslo'])){
-                // pokusim se prihlasit uzivatele
-                /*$res = $myDB->userLogin($_POST['login'], $_POST['heslo']);
+            if($_POST['action'] == 'logIn' && isset($_POST['login']) && isset($_POST['heslo'])){
+                //pokusim se prihlasit uzivatele
+                $res = $this->um->userLogin($_POST['login'], $_POST['heslo']);
                 if($res){
-                    echo "OK: Uživatel byl přihlášen.";
+                    header("LOCATION:http://localhost/dashboard/phpZkouska/WEB_SP/Semestralka/index.php?page=domov");
+
                 } else {
-                    echo "ERROR: Přihlášení uživatele se nezdařilo.";
-                }*/
-            }
-            // odhlaseni
-            else if($_POST['action'] == 'logout'){
-                // odhlasim uzivatele
-                /*$myDB->userLogout();
-                echo "OK: Uživatel byl odhlášen.";*/
+                    $tplData['logIn'] = "CHYBA: Uživatele $_POST[login] se nepodařilo přihlásit.";
+                }
             }
             // neznama akce
             else {
                 echo "WARNING: Neznámá akce.";
             }
-            echo "<br>";
         }
 
 

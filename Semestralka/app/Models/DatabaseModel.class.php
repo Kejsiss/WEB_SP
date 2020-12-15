@@ -52,6 +52,8 @@ class DatabaseModel {
 
     public function addUser(string $login, string $heslo, string $jmeno, string $prijmeni, string $email, int $idPravo):bool{
 
+        $heslo = password_hash($heslo, PASSWORD_DEFAULT);
+
         $q = "INSERT INTO ".TABLE_UZIVATEL."(username,heslo,jmeno,prijmeni,email,id_PRAVO) 
         VALUES('$login', '$heslo', '$jmeno', '$prijmeni','$email', $idPravo)";
 

@@ -2,7 +2,7 @@
 //////////////////////////////////////////////////////////////
 ////////////// HTML Zaklad vsech stranek webu ////////////////
 //////////////////////////////////////////////////////////////
-
+require_once("MySessions.class.php");
 /**
  * Trida pro vypis hlavicky a paticky HTML stranky.
  */
@@ -119,9 +119,16 @@ class ZakladHTML {
                         // vypis menu
                         foreach(WEB_PAGES as $key => $pInfo){
                             if($key == 'login'){
-                                echo "<li class='nav-item'><i class='fas fa-user-circle'></i><a href='index.php?page=$key'>$pInfo[title]</a></li>";
-                            }
-                            elseif($key == 'register'){
+                                if(MySessions::sessionExists("current_user_id")) {
+                                    echo "<li class='nav-item'><i class='fas fa-edit'></i><a href='index.php?page=sprava'>Správa</a></li>";
+                                    echo "<li class='nav-item'><i class='fas fa-user-circle'></i><a href='index.php?page=$key'>Odhlásit</a></li>";
+                                }
+                                else {
+                                    echo "<li class='nav-item'><i class='fas fa-user-circle'></i><a href='index.php?page=$key'>Přihlásit</a></li>";
+
+                                }
+                           }
+                            elseif($key == 'register' && !(MySessions::sessionExists("current_user_id"))){
                                 echo "<li class='nav-item'><i class='fas fa-user'></i><a href='index.php?page=$key'>$pInfo[title]</a></li>";
                             }
                         }

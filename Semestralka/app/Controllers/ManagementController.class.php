@@ -2,7 +2,7 @@
 // nactu rozhrani kontroleru
 require_once(DIRECTORY_CONTROLLERS."/IController.interface.php");
 
-class RegisterController implements IController
+class ManagementController implements IController
 {
 
     /** @var DatabaseModel $db  Sprava databaze. */
@@ -13,8 +13,10 @@ class RegisterController implements IController
      */
     public function __construct() {
         // inicializace prace s DB
+        //require_once (DIRECTORY_MODELS ."/DatabaseModel.class.php");
         require_once (DIRECTORY_MODELS ."/UserModel.class.php");
-        $this->um = new UserModel();
+        require_once("MySessions.class.php");
+        $this->um= new UserModel();
     }
 
     /**
@@ -29,28 +31,13 @@ class RegisterController implements IController
         // nazev
         $tplData['title'] = $pageTitle;
 
-        $tplData['rights'] = $this->um->getAllRights();
-
-        if(isset($_POST['action']) and $_POST['action'] == "addUser" and isset($_POST['login']) && isset($_POST['heslo'])
-            && isset($_POST['usrn']) && isset($_POST['surn']) && isset($_POST['mail']) && isset($_POST['pravo'])
-            && $_POST['login'] != "" && $_POST['heslo'] != "" && $_POST['usrn'] != "" && $_POST['surn'] != "" && $_POST['mail'] != ""
-            && $_POST['pravo'] > 0
-        ){
-
-            // provedu smazani uzivatele
-            $ok = $this->um->addUser($_POST['login'],$_POST['heslo'],$_POST['usrn'],$_POST['surn'],$_POST['mail'],$_POST['pravo']);
-            if($ok){
-                $tplData['addUser'] = "OK: Uživatel $_POST[login] byl přidán do databáze.";
-            } else {
-                $tplData['addUser'] = "CHYBA: Uživatele $_POST[login] se nepodařilo přidat do databáze.";
-            }
-        }
+        $tplData['authorization'] = MySessions::getSession("user_right");
 
         //// vypsani prislusne sablony
         // zapnu output buffer pro odchyceni vypisu sablony
         ob_start();
         // pripojim sablonu, cimz ji i vykonam
-        require(DIRECTORY_VIEWS ."/RegisterTemplate.tpl.php");
+        require(DIRECTORY_VIEWS ."/ManagementTemplate.tpl.php");
         // ziskam obsah output bufferu, tj. vypsanou sablonu
         $obsah = ob_get_clean();
 

@@ -86,7 +86,13 @@ const WEB_PAGES = array(
         "file_name" => "ReviewsCampsController.class.php",
         "class_name" => "ReviewsCampsController",
     ),
+    "sprava" => array(
+        "title" => "Správa",
 
+        //// kontroler
+        "file_name" => "ManagementController.class.php",
+        "class_name" => "ManagementController",
+    ),
 );
 
 ?>

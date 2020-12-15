@@ -31,7 +31,11 @@ $tplHeaders = new ZakladHTML();
 // hlavicka
 $tplHeaders->getHTMLHeader($tplData['title']);
 
-/*if(!$myDB->isUserLogged()){*/
+if(isset($tplData['logIn'])){
+    echo "<div class='alert alert-info'>$tplData[logIn]</div>";
+}
+
+if(!$tplData['isUserLogged']){
     ?>
     <div class="container" id="inputTab text-center">
         <h4 class="text-center">Zde se můžeš přihlásit!</h4><br>
@@ -46,7 +50,7 @@ $tplHeaders->getHTMLHeader($tplData['title']);
                     <input type="password" class="form-control col-sm-9" id="pass" name="heslo">
                 </div><br>
                 <div style="text-align:center;">
-                    <button type='submit' name='action' value='logIn' class="btn" style="background-color: #236AB9; color: #D4E4F7">Registrovat</button>
+                    <button type='submit' name='action' value='logIn' class="btn" style="background-color: #236AB9; color: #D4E4F7">Přihlásit se</button>
                 </div>
             </div>
         </form>
@@ -55,33 +59,8 @@ $tplHeaders->getHTMLHeader($tplData['title']);
     </div>
     <br>
     <?php
-    ///////////// KONEC: PRO NEPRIHLASENE UZIVATELE ///////////////
 
-//} else {
-
-    ///////////// PRO PRIHLASENE UZIVATELE /////////////
-    // ziskam nazev prava uzivatele, abych ho mohl vypsat
-    /*$pravo = $myDB->getRightById($user["id_pravo"]);
-    // ziskam nazev
-    $pravoNazev = ($pravo == null) ? "*Neznámé*" : $pravo['nazev'];
-*/
- /*   ?>
-    <h2>Přihlášený uživatel</h2>
-
-    Login: <?php echo $user['username'] ; ?><br>
-    Jméno: <?php echo $user['jmeno'] ; ?><br>
-    Přijmení: <?php echo $user['prijmeni'] ; ?><br>
-    E-mail: <?php echo $user['email'] ; ?><br>
-    Právo: <?php echo $pravoNazev ; ?><br>
-    <br>
-
-    Odhlášení uživatele:
-    <form action="" method="POST">
-        <input type="hidden" name="action" value="logout">
-        <input type="submit" name="potvrzeni" value="Odhlásit">
-    </form>
-    <?php*/
-//}
+}
 
 // paticka
 $tplHeaders->getHTMLFooter();
