@@ -103,12 +103,11 @@ class DatabaseModel {
         }
     }
 
-    public function addRiverReview(int $userId, date $date, string $review, string $nazevReky):bool{
+    public function addRiverReview(int $userId, string $date, string $review, int $riverId):bool{
 
-        $RekaId = $this->getRiverIdByName($nazevReky);
 
         $q = "INSERT INTO ".TABLE_SJIZDI."(recenze_reky,datum_sjezdu,id_uzivatel,id_reka) 
-        VALUES('$review', $date, $userId, $RekaId)";
+        VALUES('$review', STR_TO_DATE('$date', '%Y-%m-%d'), $userId, $riverId)";
 
         // provedu dotaz
         $res = $this->pdo->query($q);
@@ -123,14 +122,11 @@ class DatabaseModel {
 
     }
 
-    public function addCampReview(date $date, string $review, string $nazevKempu, string $nazevReky):bool{
+    public function addCampReview(date $date, string $review, int $campId, int $riverId):bool{
 
-        //tohle mozna nebude fungovat, viz slozeni databaze, potreba sjizdi
-        $RekaId = $this->getRiverIdByName($nazevReky);
-        $KempId = $this->getCampIdByName($nazevKempu);
 
         $q = "INSERT INTO ".TABLE_TABORISTE."(datum_utaboreni,recenze_taboriste,id_sjizdi,id_taboriste) 
-        VALUES($date, '$review', $RekaId, $KempId)";
+        VALUES($date, '$review', $riverId, $campId)";
 
         // provedu dotaz
         $res = $this->pdo->query($q);
@@ -179,6 +175,11 @@ class DatabaseModel {
 
     public function getAllRivers():array{
         $q = "SELECT * FROM ".TABLE_REKA;
+        return $this->pdo->query($q)->fetchAll();
+    }
+
+    public function getAllUserRivers(int $userId):array{
+        $q = "SELECT * FROM ".TABLE_SJIZDI." WHERE id_uzivatel = $userId";
         return $this->pdo->query($q)->fetchAll();
     }
 

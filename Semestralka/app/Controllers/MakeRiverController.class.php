@@ -2,7 +2,7 @@
 // nactu rozhrani kontroleru
 require_once(DIRECTORY_CONTROLLERS."/IController.interface.php");
 
-class ManagementController implements IController
+class MakeRiverController implements IController
 {
 
     /** @var DatabaseModel $db  Sprava databaze. */
@@ -31,13 +31,13 @@ class ManagementController implements IController
         // nazev
         $tplData['title'] = $pageTitle;
 
-        $tplData['authorization'] = MySessions::getSession("user_right");
+        $tplData['isUserLogged'] = $this->um->isUserLogged();
 
         //// vypsani prislusne sablony
         // zapnu output buffer pro odchyceni vypisu sablony
         ob_start();
         // pripojim sablonu, cimz ji i vykonam
-        require(DIRECTORY_VIEWS ."/ManagementTemplate.tpl.php");
+        require(DIRECTORY_VIEWS ."/MakeRiverTemplate.tpl.php");
         // ziskam obsah output bufferu, tj. vypsanou sablonu
         $obsah = ob_get_clean();
 

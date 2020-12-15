@@ -86,12 +86,47 @@ const WEB_PAGES = array(
         "file_name" => "ReviewsCampsController.class.php",
         "class_name" => "ReviewsCampsController",
     ),
-    "sprava" => array(
-        "title" => "Správa",
+    "vytvoritRecenziReky" => array(
+        "title" => "Tvorba recenze řeky",
 
         //// kontroler
-        "file_name" => "ManagementController.class.php",
-        "class_name" => "ManagementController",
+        "file_name" => "MakeReviewRiverController.class.php",
+        "class_name" => "MakeReviewRiverController",
+    ),
+    "vytvoritRecenziKempu" => array(
+        "title" => "Tvorba recenze kempu",
+
+        //// kontroler
+        "file_name" => "MakeReviewCampController.class.php",
+        "class_name" => "MakeReviewCampController",
+    ),
+    "recenzeList" => array(
+        "title" => "Seznam recenzí",
+
+        //// kontroler
+        "file_name" => "ReviewListController.class.php",
+        "class_name" => "ReviewListController",
+    ),
+    "vytvoritReku" => array(
+        "title" => "Přidání řeky",
+
+        //// kontroler
+        "file_name" => "MakeRiverController.class.php",
+        "class_name" => "MakeRiverController",
+    ),
+    "vytvoritKemp" => array(
+        "title" => "Přidání kempu",
+
+        //// kontroler
+        "file_name" => "MakeCampController.class.php",
+        "class_name" => "MakeCampController",
+    ),
+    "urcitSpravce" => array(
+        "title" => "Určení správce",
+
+        //// kontroler
+        "file_name" => "MakeManagerController.class.php",
+        "class_name" => "MakeManagerController",
     ),
 );
 

@@ -120,7 +120,22 @@ class ZakladHTML {
                         foreach(WEB_PAGES as $key => $pInfo){
                             if($key == 'login'){
                                 if(MySessions::sessionExists("current_user_id")) {
-                                    echo "<li class='nav-item'><i class='fas fa-edit'></i><a href='index.php?page=sprava'>Správa</a></li>";
+                                    echo "<li class='nav-item dropdown'><a class='nav-link nav-link dropdown-toggle' href='#' id='navbardrop' data-toggle='dropdown'>
+                                            <i class='fas fa-edit'></i>Správa</a>
+                                                <div class='dropdown-menu'>
+                                                    <a class='dropdown-item' href='index.php?page=recenzeList'>Seznam recenzí</a>
+                                                    <a class='dropdown-item' href='index.php?page=vytvoritRecenziReky'>Vytvořit recenzi řeky</a>
+                                                    <a class='dropdown-item' href='index.php?page=vytvoritRecenziKempu'>Vytvořit recenzi kempu</a>";
+                                                    if(MySessions::getSession("user_right") <= 2) {
+                                                        echo "<a class='dropdown-item' href='index.php?page=vytvoritReku'>Přidat řeku</a>
+                                                              <a class='dropdown-item' href='index.php?page=vytvoritKemp'>Přidat kemp</a>";
+                                                        if(MySessions::getSession("user_right") == 1) {
+                                                            echo "<a class='dropdown-item' href='index.php?page=urcitSpravce'>Přidat správce</a>";
+                                                        }
+                                                    }
+                                               "</div>
+                                            </li>";
+
                                     echo "<li class='nav-item'><i class='fas fa-user-circle'></i><a href='index.php?page=$key'>Odhlásit</a></li>";
                                 }
                                 else {
