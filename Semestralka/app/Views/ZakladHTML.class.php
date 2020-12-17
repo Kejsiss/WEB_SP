@@ -69,7 +69,10 @@ class ZakladHTML {
                 li{
                     padding: 15px;
                 }
-
+                .center {
+                    margin-left: auto;
+                    margin-right: auto;
+                }
                 /* Extra small devices (phones, 600px and down) */
                 /*@media only screen and (min-width: 600px) {
                     footer{
@@ -131,6 +134,7 @@ class ZakladHTML {
                                                               <a class='dropdown-item' href='index.php?page=vytvoritKemp'>Přidat kemp</a>";
                                                         if(MySessions::getSession("user_right") == 1) {
                                                             echo "<a class='dropdown-item' href='index.php?page=urcitSpravce'>Přidat správce</a>";
+                                                            echo "<a class='dropdown-item' href='index.php?page=spravaUzivatelu'>Správa uživatelů</a>";
                                                         }
                                                     }
                                                "</div>

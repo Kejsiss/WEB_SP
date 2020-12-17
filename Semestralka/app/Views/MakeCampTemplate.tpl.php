@@ -26,27 +26,61 @@ $tplHeaders = new ZakladHTML();
 // hlavicka
 $tplHeaders->getHTMLHeader($tplData['title']);
 
+if(isset($tplData['addCamp'])){
+    echo "<div class='alert alert-info'>$tplData[addCamp]</div>";
+}
+
 if($tplData['isUserLogged']){
     ?>
     <div class="container" id="inputTab text-center">
-        <h4 class="text-center">Zde se můžeš přihlásit!</h4><br>
+        <h4 class="text-center">Zde můžeš přidat tábořiště do databáze!</h4><br>
         <form method="POST" action="" class="form-inline justify-content-center" role="form">
             <div>
                 <div class="form-group">
-                    <label for="log" class="col-sm-3"><sup>*</sup>Login:&nbsp</label>
-                    <input type="text" class="form-control col-sm-9" id="log" name="login">
+                    <label for="camp">Název kempu:&nbsp</label>
+                    <input type="text" class="form-control col-sm-12" id="camp" name="camp">
                 </div><br>
                 <div class="form-group">
-                    <label for="pass" class="col-sm-3"><sup>*</sup>Heslo:&nbsp</label>
-                    <input type="password" class="form-control col-sm-9" id="pass" name="heslo">
+                    <label for="capacity">Kapacita:&nbsp</label>
+                    <input type="number" class="form-control col-sm-12" id="capacity" name="capacity">
+                </div><br>
+                <div class="form-group">
+                    <label for="pricePerNight">Cena za noc:&nbsp</label>
+                    <input type="number" class="form-control col-sm-12" id="pricePerNight" name="price">
+                </div><br>
+                <div class="form-group">
+                    <label for="parking" class="col-sm-6">Parkoviště:&nbsp</label>
+                    <input type="checkbox" class="form-control col-sm-1" id="parking" name="parking" value="true">
+                </div><br>
+                <div class="form-group">
+                    <label for="WC" class="col-sm-6">WC:&nbsp</label>
+                    <input type="checkbox" class="form-control col-sm-1" id="WC" name="wc">
+                </div><br>
+                <div class="form-group">
+                    <label for="showers" class="col-sm-6">Sprchy:&nbsp</label>
+                    <input type="checkbox" class="form-control col-sm-1" id="showers" name="showers">
+                </div><br>
+                <div class="form-group">
+                    <label for="restaurant" class="col-sm-6">Restaurace:&nbsp</label>
+                    <input type="checkbox" class="form-control col-sm-1" id="restaurant" name="restaurant">
+                </div><br>
+                <div class="form-group">
+                    <label for="reka" class="col-sm-6">Řeka:&nbsp</label>
+                    <select name="river" id="reka">
+                        <?php
+                        // ziskam vsechna prava
+                        // projdu je a vypisu
+                        foreach($tplData['allRivers'] as $r){
+                            echo "<option value='$r[id_REKA]'>$r[nazev]</option>";
+                        }
+                        ?>
+                    </select>
                 </div><br>
                 <div style="text-align:center;">
-                    <button type='submit' name='action' value='logIn' class="btn" style="background-color: #236AB9; color: #D4E4F7">Přihlásit se</button>
+                    <button type='submit' name='action' value='addCamp' class="btn" style="background-color: #236AB9; color: #D4E4F7">Přidat tábořiště</button>
                 </div>
             </div>
         </form>
-        <br>
-        <h5 class="text-center">Nemáš ještě účet? Vytvoř si nový <a href="index.php?page=register" style="color: #236AB9">zde!</a>   </h5>
     </div>
     <br>
     <?php

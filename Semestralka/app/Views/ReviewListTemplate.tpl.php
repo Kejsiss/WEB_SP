@@ -29,24 +29,33 @@ $tplHeaders->getHTMLHeader($tplData['title']);
 if($tplData['isUserLogged']){
     ?>
     <div class="container" id="inputTab text-center">
-        <h4 class="text-center">Zde se můžeš přihlásit!</h4><br>
-        <form method="POST" action="" class="form-inline justify-content-center" role="form">
-            <div>
-                <div class="form-group">
-                    <label for="log" class="col-sm-3"><sup>*</sup>Login:&nbsp</label>
-                    <input type="text" class="form-control col-sm-9" id="log" name="login">
-                </div><br>
-                <div class="form-group">
-                    <label for="pass" class="col-sm-3"><sup>*</sup>Heslo:&nbsp</label>
-                    <input type="password" class="form-control col-sm-9" id="pass" name="heslo">
-                </div><br>
-                <div style="text-align:center;">
-                    <button type='submit' name='action' value='logIn' class="btn" style="background-color: #236AB9; color: #D4E4F7">Přihlásit se</button>
-                </div>
-            </div>
-        </form>
-        <br>
-        <h5 class="text-center">Nemáš ještě účet? Vytvoř si nový <a href="index.php?page=register" style="color: #236AB9">zde!</a>   </h5>
+        <h4 class="text-center">Zde máš vypsané všechny své recenze!</h4><br>
+        <h5>Recenze řek</h5><hr><br>
+        <?php
+            $rivers = "<div>";
+            foreach($tplData['reviewedRivers'] as $r){
+            $rivers .= "<h6>$r[nazev]</h6>"
+                ."<p>Datum sjezdu: $r[datum_sjezdu]</p>"
+                ."<div>Recenze: $r[recenze_reky]</div><br>";
+            }
+
+        $rivers .= "</div>";
+
+            echo $rivers;
+        ?>
+        <h5>Recenze tábořišť</h5><hr><br>
+        <?php
+        $camps = "<div>";
+        foreach($tplData['reviewedCamps'] as $c){
+            $camps .= "<h6>$c[nazev]</h6>"
+                ."<p>Datum utáboření: $c[datum_utaboreni]</p>"
+                ."<div>Recenze: $c[recenze_taboriste]</div><br>";
+        }
+
+        $camps .= "</div>";
+
+        echo $camps;
+        ?>
     </div>
     <br>
     <?php

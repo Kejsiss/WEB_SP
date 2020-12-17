@@ -37,6 +37,8 @@ class MakeReviewCampController implements IController
         $tplData['allRivers'] = $this->db->getAllUserRivers(MySessions::getSession("current_user_id"));
         $tplData['allCamps'] = $this->db->getAllCamps();
 
+        //DODELAT PORADNE POZDEJI!
+
         if(isset($_POST['action']) and $_POST['action'] == "addCampReview" and isset($_POST['river']) && isset($_POST['dateReview'])
             && isset($_POST['riverReview'])
             && $_POST['dateReview'] != "" && $_POST['riverReview'] != "" && $_POST['river'] > 0

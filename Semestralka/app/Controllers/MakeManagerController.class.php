@@ -33,6 +33,19 @@ class MakeManagerController implements IController
 
         $tplData['isUserLogged'] = $this->um->isUserLogged();
 
+        $tplData['paddlers'] = $this->um->getAllPaddlers();
+
+        if(isset($_POST['action']) and $_POST['action'] == "makeManager" and isset($_POST['paddlers']) && $_POST['paddlers'] > 0
+        ){
+
+            $ok = $this->um->appointManager($_POST['paddlers']);
+            if($ok){
+                $tplData['makeManager'] = "OK: Uživatel byl určen jako správce.";
+            } else {
+                $tplData['makeManager'] = "CHYBA: Uživatele se nepodařilo určit jako správce.";
+            }
+        }
+
         //// vypsani prislusne sablony
         // zapnu output buffer pro odchyceni vypisu sablony
         ob_start();

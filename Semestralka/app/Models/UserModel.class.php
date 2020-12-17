@@ -113,6 +113,8 @@ class UserModel {
     public function isUserLogged(){
         return MySessions::sessionExists($this->userSessionKey);
     }
+
+
     /**
      *  Vrati seznam vsech uzivatelu pro spravu uzivatelu.
      *  @return array Obsah spravy uzivatelu.
@@ -123,6 +125,25 @@ class UserModel {
         // provedu a vysledek vratim jako pole
         // protoze je o uzkazku, tak netestuju, ze bylo neco vraceno
         return $this->pdo->query($q)->fetchAll();
+    }
+
+    /**
+     *  Smaze daneho uzivatele z DB.
+     *  @param int $userId  ID uzivatele.
+     */
+    public function deleteUser(int $userId):bool {
+        // pripravim dotaz
+        $q = "DELETE FROM ".TABLE_UZIVATEL." WHERE id_UZIVATEL = $userId";
+        // provedu dotaz
+        $res = $this->pdo->query($q);
+        // pokud neni false, tak vratim vysledek, jinak null
+        if ($res) {
+            // neni false
+            return true;
+        } else {
+            // je false
+            return false;
+        }
     }
 
 
@@ -145,6 +166,26 @@ class UserModel {
         }
     }
 
+    public function appointManager($userId):bool{
+
+        $q ="UPDATE ".TABLE_UZIVATEL." SET id_pravo = 2 WHERE id_UZIVATEL = $userId";
+
+            // provedu dotaz
+        $res = $this->pdo->query($q);
+        // pokud neni false, tak vratim vysledek, jinak null
+        if ($res) {
+            // neni false
+            return true;
+        } else {
+            // je false
+            return false;
+        }
+    }
+
+    public function getAllPaddlers():array{
+        $q = "SELECT id_UZIVATEL, username FROM ".TABLE_UZIVATEL." WHERE id_pravo = 3";
+        return $this->pdo->query($q)->fetchAll();
+    }
 
     public function getAllRights():array{
         $q = "SELECT * FROM ".TABLE_PRAVO;

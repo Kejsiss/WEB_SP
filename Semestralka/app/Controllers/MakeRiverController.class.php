@@ -6,6 +6,7 @@ class MakeRiverController implements IController
 {
 
     /** @var DatabaseModel $db  Sprava databaze. */
+    private $db;
     private $um;
 
     /**
@@ -13,10 +14,11 @@ class MakeRiverController implements IController
      */
     public function __construct() {
         // inicializace prace s DB
-        //require_once (DIRECTORY_MODELS ."/DatabaseModel.class.php");
+        require_once (DIRECTORY_MODELS ."/DatabaseModel.class.php");
         require_once (DIRECTORY_MODELS ."/UserModel.class.php");
         require_once("MySessions.class.php");
         $this->um= new UserModel();
+        $this->db = new DatabaseModel();
     }
 
     /**
@@ -32,6 +34,19 @@ class MakeRiverController implements IController
         $tplData['title'] = $pageTitle;
 
         $tplData['isUserLogged'] = $this->um->isUserLogged();
+
+
+        if(isset($_POST['action']) and $_POST['action'] == "addRiver" and isset($_POST['river']) && isset($_POST['distance'])
+            && isset($_POST['weir'])
+            && $_POST['river'] != "" && $_POST['distance'] > 0
+        ){
+            $ok = $this->db->addRiver($_POST['river'],$_POST['distance'],$_POST['weir']);
+            if($ok){
+                $tplData['addRiver'] = "OK: Řeka byla přidána do databáze.";
+            } else {
+                $tplData['addRiver'] = "CHYBA: Řeku se nepodařilo přidat do databáze.";
+            }
+        }
 
         //// vypsani prislusne sablony
         // zapnu output buffer pro odchyceni vypisu sablony

@@ -128,6 +128,13 @@ const WEB_PAGES = array(
         "file_name" => "MakeManagerController.class.php",
         "class_name" => "MakeManagerController",
     ),
+    "spravaUzivatelu" => array(
+        "title" => "Správa uživatelů",
+
+        //// kontroler
+        "file_name" => "UserManagementController.class.php",
+        "class_name" => "UserManagementController",
+    ),
 );
 
 ?>

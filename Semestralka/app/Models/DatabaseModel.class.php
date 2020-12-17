@@ -19,36 +19,7 @@ class DatabaseModel {
     }
 
     
-    /**
-     *  Vrati seznam vsech uzivatelu pro spravu uzivatelu.
-     *  @return array Obsah spravy uzivatelu.
-     */
-    public function getAllUsers():array {
-        // pripravim dotaz
-        $q = "SELECT * FROM ".TABLE_UZIVATEL;
-        // provedu a vysledek vratim jako pole
-        // protoze je o uzkazku, tak netestuju, ze bylo neco vraceno
-        return $this->pdo->query($q)->fetchAll();
-    }
-    
-    /**
-     *  Smaze daneho uzivatele z DB.
-     *  @param int $userId  ID uzivatele.
-     */
-    public function deleteUser(int $userId):bool {
-        // pripravim dotaz
-        $q = "DELETE FROM ".TABLE_USER." WHERE id_user = $userId";
-        // provedu dotaz
-        $res = $this->pdo->query($q);
-        // pokud neni false, tak vratim vysledek, jinak null
-        if ($res) {
-            // neni false
-            return true;
-        } else {
-            // je false
-            return false;
-        }
-    }
+
 
     public function addUser(string $login, string $heslo, string $jmeno, string $prijmeni, string $email, int $idPravo):bool{
 
@@ -86,10 +57,10 @@ class DatabaseModel {
         }
     }
 
-    public function addCamp(string $nazev, int $kapacita, int $cena_za_noc, int $parkoviste, int $wc, int $sprchy, int $restaurace):bool{
+    public function addCamp(string $nazev, int $kapacita, int $cena_za_noc, bool $parkoviste, bool $wc, bool $sprchy, bool $restaurace, int $idRiver):bool{
 
-        $q = "INSERT INTO ".TABLE_TABORISTE."(nazev,kapacita,cena_za_noc,parkoviste,wc,sprchy,restaurace) 
-        VALUES('$nazev', $kapacita, $cena_za_noc, $parkoviste, $wc, $sprchy, $restaurace)";
+        $q = "INSERT INTO ".TABLE_TABORISTE."(nazev,kapacita,cena_za_noc,parkoviste,wc,sprchy,restaurace, id_reka) 
+        VALUES('$nazev', $kapacita, $cena_za_noc, $parkoviste, $wc, $sprchy, $restaurace, $idRiver)";
 
         // provedu dotaz
         $res = $this->pdo->query($q);
@@ -162,8 +133,9 @@ class DatabaseModel {
     public function getCampsReviewsByUser(int $userId):array{
 
         $q = "SELECT ".TABLE_TABORISTE.".nazev, ".TABLE_TABORI.".recenze_taboriste, ".TABLE_TABORI.".datum_utaboreni FROM ".TABLE_TABORISTE.", "
-            .TABLE_TABORI.", ".TABLE_UZIVATEL." WHERE ".TABLE_TABORISTE.".id_TABORISTE = ".TABLE_TABORI.".id_taboriste AND "
-            .TABLE_TABORI.".id_uzivatel = ".TABLE_UZIVATEL.".id_UZIVATEL AND ".TABLE_UZIVATEL.".id_UZIVATEL = $userId";
+            .TABLE_TABORI.", ".TABLE_UZIVATEL.", ".TABLE_SJIZDI." WHERE ".TABLE_TABORISTE.".id_TABORISTE = ".TABLE_TABORI.".id_taboriste AND "
+            .TABLE_SJIZDI.".id_uzivatel = ".TABLE_UZIVATEL.".id_UZIVATEL AND ".TABLE_UZIVATEL.".id_UZIVATEL = $userId";
+
         return $this->pdo->query($q)->fetchAll();
 
     }
@@ -179,7 +151,7 @@ class DatabaseModel {
     }
 
     public function getAllUserRivers(int $userId):array{
-        $q = "SELECT * FROM ".TABLE_SJIZDI." WHERE id_uzivatel = $userId";
+        $q = "SELECT ".TABLE_REKA.".id_REKA, ".TABLE_REKA.".nazev FROM ".TABLE_REKA.", ".TABLE_SJIZDI." WHERE ".TABLE_SJIZDI.".id_uzivatel = $userId";;
         return $this->pdo->query($q)->fetchAll();
     }
 
