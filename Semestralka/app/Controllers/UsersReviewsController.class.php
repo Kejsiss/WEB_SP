@@ -2,7 +2,7 @@
 // nactu rozhrani kontroleru
 require_once(DIRECTORY_CONTROLLERS."/IController.interface.php");
 
-class ReviewListController implements IController
+class UsersReviewsController implements IController
 {
 
     /** @var DatabaseModel $db  Sprava databaze. */
@@ -16,9 +16,8 @@ class ReviewListController implements IController
         // inicializace prace s DB
         require_once (DIRECTORY_MODELS ."/DatabaseModel.class.php");
         require_once (DIRECTORY_MODELS ."/UserModel.class.php");
-        require_once("MySessions.class.php");
-        $this->um= new UserModel();
-        $this->db= new DatabaseModel();
+        $this->um = new UserModel();
+        $this->db = new DatabaseModel();
     }
 
     /**
@@ -33,9 +32,7 @@ class ReviewListController implements IController
         // nazev
         $tplData['title'] = $pageTitle;
 
-        $tplData['isUserLogged'] = $this->um->isUserLogged();
-        $tplData['reviewedRivers'] = $this->db->getRiversReviewsByUser(MySessions::getSession("current_user_id"));
-        $tplData['reviewedCamps'] = $this->db->getCampsReviewsByUser(MySessions::getSession("current_user_id"));
+        $id = explode("/",$_GET["page"])[1];
 
         if(isset($_POST['action']) and $_POST['action'] == "deleteRiverReview"
             and isset($_POST['id_sjizdi'])
@@ -57,15 +54,20 @@ class ReviewListController implements IController
             if($ok){
                 $tplData['deleteCampReview'] = "OK: Recenze byla smazána z databáze.";
             } else {
-                $tplData['deleteCampReview'] = "CHYBA: Recenzi se nepodařilo smazat z databáze (nejspíš je potřeba nejdříve smazat recenzi tábořiště).";
+                $tplData['deleteCampReview'] = "CHYBA: Recenzi se nepodařilo smazat z databáze.";
             }
         }
+
+        $tplData['isUserLogged'] = $this->um->isUserLogged();
+        $tplData['reviewedRivers'] = $this->db->getRiversReviewsByUser($id);
+        $tplData['reviewedCamps'] = $this->db->getCampsReviewsByUser($id);
+
 
         //// vypsani prislusne sablony
         // zapnu output buffer pro odchyceni vypisu sablony
         ob_start();
         // pripojim sablonu, cimz ji i vykonam
-        require(DIRECTORY_VIEWS ."/ReviewListTemplate.tpl.php");
+        require(DIRECTORY_VIEWS ."/UsersReviewsTemplate.tpl.php");
         // ziskam obsah output bufferu, tj. vypsanou sablonu
         $obsah = ob_get_clean();
 

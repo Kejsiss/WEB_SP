@@ -135,6 +135,20 @@ const WEB_PAGES = array(
         "file_name" => "UserManagementController.class.php",
         "class_name" => "UserManagementController",
     ),
+    "spravaRecenzi" => array(
+        "title" => "Správa uživatelských recenzí",
+
+        //// kontroler
+        "file_name" => "UserReviewsManagementController.class.php",
+        "class_name" => "UserReviewsManagementController",
+    ),
+    "recenzeUzivatel" => array(
+        "title" => "Recenze uživatele",
+
+        //// kontroler
+        "file_name" => "UsersReviewsController.class.php",
+        "class_name" => "UsersReviewsController",
+    ),
 );
 
 ?>

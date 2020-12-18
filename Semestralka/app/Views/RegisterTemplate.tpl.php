@@ -57,18 +57,6 @@ if(isset($tplData['addUser'])){
                     <label for="email" class="col-sm-3"><sup>*</sup>Email:&nbsp</label>
                     <input type="email" class="form-control col-sm-9" id="email" name="mail">
                 </div><br>
-                <div class="form-group">
-                    <label for="role" class="col-sm-3">Role:&nbsp</label>
-                    <select name="pravo" id="role">
-                        <?php
-                        // ziskam vsechna prava
-                        // projdu je a vypisu
-                        foreach($tplData['rights'] as $r){
-                            echo "<option value='$r[id_PRAVO]'>$r[nazev]</option>";
-                        }
-                        ?>
-                    </select>
-                </div><br>
                 <p>Všechna pole označená symbolem <sup>*</sup> jsou povinná</p><br>
                 <div style="text-align:center;">
                     <button type='submit' name='action' value='addUser' class="btn" style="background-color: #236AB9; color: #D4E4F7">Registrovat</button>

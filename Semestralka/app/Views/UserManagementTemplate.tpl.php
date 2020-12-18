@@ -58,7 +58,7 @@ foreach($tplData['users'] as $u){
     $res .= "<tr><td>$u[id_UZIVATEL]</td><td>$u[username]</td><td>$u[jmeno]</td><td>$u[prijmeni]</td><td>$u[email]</td><td>$u[id_pravo]</td>"
             ."<td><form method='post'>"
             ."<input type='hidden' name='id_user' value='$u[id_UZIVATEL]'>"
-            ."<button type='submit' name='action' value='delete'>Smazat</button>"
+            ."<button type='submit' name='action' value='delete' style='background-color: #236AB9; color: #D4E4F7'>Smazat</button>"
             ."</form></td></tr>";
 }
 

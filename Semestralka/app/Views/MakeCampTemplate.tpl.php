@@ -50,7 +50,7 @@ if($tplData['isUserLogged']){
                 </div><br>
                 <div class="form-group">
                     <label for="parking" class="col-sm-6">Parkoviště:&nbsp</label>
-                    <input type="checkbox" class="form-control col-sm-1" id="parking" name="parking" value="true">
+                    <input type="checkbox" class="form-control col-sm-1" id="parking" name="parking">
                 </div><br>
                 <div class="form-group">
                     <label for="WC" class="col-sm-6">WC:&nbsp</label>

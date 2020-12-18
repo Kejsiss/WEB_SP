@@ -2,7 +2,7 @@
 // nactu rozhrani kontroleru
 require_once(DIRECTORY_CONTROLLERS."/IController.interface.php");
 
-class RegisterController implements IController
+class UserReviewsManagementController implements IController
 {
 
     /** @var DatabaseModel $db  Sprava databaze. */
@@ -30,25 +30,14 @@ class RegisterController implements IController
         $tplData['title'] = $pageTitle;
 
 
-        if(isset($_POST['action']) and $_POST['action'] == "addUser" and isset($_POST['login']) && isset($_POST['heslo'])
-            && isset($_POST['usrn']) && isset($_POST['surn']) && isset($_POST['mail'])
-            && $_POST['login'] != "" && $_POST['heslo'] != "" && $_POST['usrn'] != "" && $_POST['surn'] != "" && $_POST['mail'] != ""
-        ){
-
-            // provedu smazani uzivatele
-            $ok = $this->um->addUser($_POST['login'],$_POST['heslo'],$_POST['usrn'],$_POST['surn'],$_POST['mail'],3);
-            if($ok){
-                $tplData['addUser'] = "OK: Uživatel $_POST[login] byl přidán do databáze.";
-            } else {
-                $tplData['addUser'] = "CHYBA: Uživatele $_POST[login] se nepodařilo přidat do databáze.";
-            }
-        }
+        //// nactu aktulani data uzivatelu
+        $tplData['users'] = $this->um->getAllUsers();
 
         //// vypsani prislusne sablony
         // zapnu output buffer pro odchyceni vypisu sablony
         ob_start();
         // pripojim sablonu, cimz ji i vykonam
-        require(DIRECTORY_VIEWS ."/RegisterTemplate.tpl.php");
+        require(DIRECTORY_VIEWS ."/UsersReviewsManagementTemplate.tpl.php");
         // ziskam obsah output bufferu, tj. vypsanou sablonu
         $obsah = ob_get_clean();
 

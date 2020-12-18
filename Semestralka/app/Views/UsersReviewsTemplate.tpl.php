@@ -1,11 +1,4 @@
 <?php
-///////////////////////////////////////////////////////////////////////////
-/////////// Sablona pro zobrazeni stranky se spravou uzivatelu  ///////////
-///////////////////////////////////////////////////////////////////////////
-
-//// pozn.: sablona je samostatna a provadi primy vypis do vystupu:
-// -> lze testovat bez zbytku aplikace.
-// -> pri vyuziti Twigu se sablona obejde bez PHP.
 
 //// vypis sablony
 // urceni globalnich promennych, se kterymi sablona pracuje
@@ -23,9 +16,9 @@ $tplHeaders = new ZakladHTML();
     <!-- Vypis obsahu sablony -->
 <?php
 
+
 // hlavicka
 $tplHeaders->getHTMLHeader($tplData['title']);
-
 
 // mam vypsat hlasku?
 if(isset($tplData['deleteRiverReview'])){
@@ -39,21 +32,21 @@ if(isset($tplData['deleteCampReview'])){
 if($tplData['isUserLogged']){
     ?>
     <div class="container" id="inputTab text-center">
-        <h4 class="text-center">Zde máš vypsané všechny své recenze!</h4><br>
+        <h4 class="text-center">Zde máš vypsané všechny recenze vybraného uživatele!</h4><br>
         <h5>Recenze řek</h5><hr><br>
         <?php
-            $rivers = "<div>";
-            foreach($tplData['reviewedRivers'] as $r){
+        $rivers = "<div>";
+        foreach($tplData['reviewedRivers'] as $r){
             $rivers .= "<h6>$r[nazev]</h6>"
                 ."<p>Datum sjezdu: $r[datum_sjezdu]</p>"
                 ."<div>Recenze: $r[recenze_reky]</div><br><form method='post'>"
                 ."<input type='hidden' name='id_sjizdi' value='$r[id_SJIZDI]'>"
                 ."<button type='submit' name='action' value='deleteRiverReview' style='background-color: #236AB9; color: #D4E4F7'>Smazat</button></form><br>";
-            }
+        }
 
-        $rivers .= "</div><br>";
+        $rivers .= "</div>";
 
-            echo $rivers;
+        echo $rivers;
         ?>
         <h5>Recenze tábořišť</h5><hr><br>
         <?php
@@ -63,7 +56,7 @@ if($tplData['isUserLogged']){
                 ."<p>Datum utáboření: $c[datum_utaboreni]</p>"
                 ."<div>Recenze: $c[recenze_taboriste]</div><br><form method='post'>"
                 ."<input type='hidden' name='id_tabori' value='$c[id_TABORI]'>"
-                ."<button type='submit' name='action' value='deleteCampReview' style='background-color: #236AB9; color: #D4E4F7'  >Smazat</button></form><br>";
+                ."<button type='submit' name='action' value='deleteCampReview' style='background-color: #236AB9; color: #D4E4F7'>Smazat</button></form><br>";
         }
 
         $camps .= "</div>";
@@ -72,7 +65,8 @@ if($tplData['isUserLogged']){
         ?>
     </div>
     <br>
-    <?php
+    </div>
+<?php
 }else {
     ?>
     <h1 class="text-center">Tato sekce je pouze pro přihlášené uživatele</h1>
@@ -80,6 +74,6 @@ if($tplData['isUserLogged']){
 }
 
 // paticka
-$tplHeaders->getHTMLFooter();
+$tplHeaders->getHTMLFooter()
 
 ?>

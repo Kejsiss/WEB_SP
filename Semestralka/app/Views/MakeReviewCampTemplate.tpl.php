@@ -27,41 +27,37 @@ $tplHeaders = new ZakladHTML();
 $tplHeaders->getHTMLHeader($tplData['title']);
 
 if(isset($tplData['addCampReview'])){
-    echo "<div class='alert alert-info'>$tplData[addRiverReview]</div>";
+    echo "<div class='alert alert-info'>$tplData[addCampReview]</div>";
 }
 
 if($tplData['isUserLogged']){
     ?>
     <div class="container" id="inputTab text-center">
-        <h4 class="text-center">Zde můžeš napsat recenzi řece!</h4><br>
+        <h4 class="text-center">Pro napsání recenze tábořiště musíš mít nejdřív napsanou recenzi pro danou řeku!</h4><br>
         <form method="POST" action="" class="form-inline justify-content-center" role="form">
             <div>
                 <div class="form-group">
-                    <label for="role" class="col-sm-6">Tábořiště:&nbsp</label>
+                    <label for="role" class="col-sm-3">Tábořiště:&nbsp</label>
                     <select name="camp" id="kemp">
                         <?php
                         // ziskam vsechna prava
                         // projdu je a vypisu
                         foreach($tplData['allCamps'] as $c){
-                            echo "<option value='$c[id_TABORISTE]'>$c[nazev]</option>";
+
+                            $id = $c['id_TABORISTE'].",".$c['id_reka'].",".$tplData['user'];
+                            $tplData['id'] = $c['id_TABORISTE'];
+                            echo "<option value='$id'>$c[nazev]</option>";
                         }
                         ?>
                     </select>
                 </div><br>
                 <div class="form-group">
-                    <label for="role" class="col-sm-6">Řeka:&nbsp</label>
-                    <select name="river" id="reka">
-                        <?php
-                        // ziskam vsechna prava
-                        // projdu je a vypisu
-                        foreach($tplData['allRivers'] as $r){
-                            echo "<option value='$r[id_REKA]'>$r[nazev]</option>";
-                        }
-                        ?>
+                    <label for="role" class="col-sm-3">Sjezdy:&nbsp</label>
+                    <select name="river" id="data">
                     </select>
                 </div><br>
                 <div class="form-group">
-                    <label for="date" class="col-sm-6">Datum utáboření:&nbsp</label>
+                    <label for="date" class="col-sm-4">Datum utáboření:&nbsp</label>
                     <input type="date" class="form-control col-sm-6" id="date" name="dateCamp">
                 </div><br>
                 <div class="form-group">
@@ -75,6 +71,37 @@ if($tplData['isUserLogged']){
         </form>
     </div>
     <br>
+
+    <script>
+        $(document).ready(function(){
+            $("#kemp").on("change",function(){
+                changeRiver();
+            });
+        });
+
+        function changeRiver(){
+
+            var kemp = $("#kemp").val();
+            var data = kemp.split(',');
+            var id = data[0];
+            var river = data[1];
+            var user = data[2];
+
+            $.get({
+                type: "POST",
+                url: "/dashboard\\phpZkouska\\WEB_SP\\Semestralka\\app\\Controllers\\zkouska.php",
+                cache:false,
+                data: {id : id, reka : river, uzivatel : user},
+                success: function(response){
+                    $("#data").empty().append(response);
+                },
+                error: function(){
+                    alert("Nastala chyba!");
+                }
+            });
+        }
+
+    </script>
     <?php
 }else {
     ?>

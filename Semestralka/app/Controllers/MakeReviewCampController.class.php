@@ -34,17 +34,19 @@ class MakeReviewCampController implements IController
         $tplData['title'] = $pageTitle;
 
         $tplData['isUserLogged'] = $this->um->isUserLogged();
+        $tplData['user'] = MySessions::getSession("current_user_id");
         $tplData['allRivers'] = $this->db->getAllUserRivers(MySessions::getSession("current_user_id"));
         $tplData['allCamps'] = $this->db->getAllCamps();
 
         //DODELAT PORADNE POZDEJI!
 
-        if(isset($_POST['action']) and $_POST['action'] == "addCampReview" and isset($_POST['river']) && isset($_POST['dateReview'])
-            && isset($_POST['riverReview'])
-            && $_POST['dateReview'] != "" && $_POST['riverReview'] != "" && $_POST['river'] > 0
+        if(isset($_POST['action']) and $_POST['action'] == "addCampReview" and isset($_POST['river']) && isset($_POST['dateCamp'])
+            && isset($_POST['campReview'])
+            && $_POST['dateCamp'] != "" && $_POST['campReview'] != "" && $_POST['river'] > 0
         ){
-            //die(print_r($_POST['dateReview']));
-            $ok = $this->db->addCampReview(MySessions::getSession("current_user_id"),$_POST['dateReview'],$_POST['riverReview'],$_POST['river']);
+            $campId = explode(",", $_POST['camp']);
+
+            $ok = $this->db->addCampReview($_POST['dateCamp'],$_POST['campReview'], intval($_POST['river']), $campId[0]);
             if($ok){
                 $tplData['addCampReview'] = "OK: Recenze byla přidána do databáze.";
             } else {

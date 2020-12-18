@@ -24,6 +24,10 @@ class ZakladHTML {
 
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
             <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+            <script
+                    src="https://code.jquery.com/jquery-3.4.1.min.js"
+                    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+                    crossorigin="anonymous"></script>
             <style>
                 body{
                     background-color: #D4E4F7;
@@ -41,6 +45,10 @@ class ZakladHTML {
                     background-color: #341C09;
                     margin-bottom: 0;
                     padding-bottom: 0;
+
+                    position:relative;
+                    bottom:0;
+                    width:100%;
                     margin-top: 100%;
                 }
                 h1{
@@ -131,7 +139,8 @@ class ZakladHTML {
                                                     <a class='dropdown-item' href='index.php?page=vytvoritRecenziKempu'>Vytvořit recenzi kempu</a>";
                                                     if(MySessions::getSession("user_right") <= 2) {
                                                         echo "<a class='dropdown-item' href='index.php?page=vytvoritReku'>Přidat řeku</a>
-                                                              <a class='dropdown-item' href='index.php?page=vytvoritKemp'>Přidat kemp</a>";
+                                                              <a class='dropdown-item' href='index.php?page=vytvoritKemp'>Přidat kemp</a>
+                                                              <a class='dropdown-item' href='index.php?page=spravaRecenzi'>Správá uživatelských recenzí</a>";
                                                         if(MySessions::getSession("user_right") == 1) {
                                                             echo "<a class='dropdown-item' href='index.php?page=urcitSpravce'>Přidat správce</a>";
                                                             echo "<a class='dropdown-item' href='index.php?page=spravaUzivatelu'>Správa uživatelů</a>";
@@ -170,7 +179,6 @@ class ZakladHTML {
     </body>
 
     <!-- ------------- JavaScripty ------------- -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 

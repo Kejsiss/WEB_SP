@@ -8,6 +8,7 @@ require_once(DIRECTORY_CONTROLLERS."/IController.interface.php");
 class UserManagementController implements IController {
 
     /** @var DatabaseModel $db  Sprava databaze. */
+    private $db;
     private $um;
 
     /**
@@ -15,7 +16,9 @@ class UserManagementController implements IController {
      */
     public function __construct() {
         // inicializace prace s DB
+        require_once (DIRECTORY_MODELS ."/DatabaseModel.class.php");
         require_once (DIRECTORY_MODELS ."/UserModel.class.php");
+        $this->db = new DatabaseModel();
         $this->um = new UserModel();
     }
 
@@ -35,13 +38,27 @@ class UserManagementController implements IController {
         if(isset($_POST['action']) and $_POST['action'] == "delete"
             and isset($_POST['id_user'])
         ){
-            // provedu smazani uzivatele
-            $ok = $this->um->deleteUser(intval($_POST['id_user']));
-            if($ok){
-                $tplData['delete'] = "OK: Uživatel s ID:$_POST[id_user] byl smazán z databáze.";
+            $deleteTabori = $this->db->deleteAllUserCampsReviews(intval($_POST['id_user']));
+            if($deleteTabori){
+
+                $deleteSjizdi = $this->db->deleteAllUserRiverReviews(intval($_POST['id_user']));
+                if($deleteSjizdi){
+                    // provedu smazani uzivatele
+                    $ok = $this->um->deleteUser(intval($_POST['id_user']));
+                    if($ok){
+                        $tplData['delete'] = "OK: Uživatel s ID:$_POST[id_user] byl smazán z databáze.";
+                    } else {
+                        $tplData['delete'] = "CHYBA: Uživatele s ID:$_POST[id_user] se nepodařilo smazat z databáze.";
+                    }
+                } else {
+                    $tplData['delete'] = "CHYBA: Uživatele s ID:$_POST[id_user] se nepodařilo smazat z databáze. (Nepodařilo se smazat jeho recenze řek)";
+                }
+
             } else {
-                $tplData['delete'] = "CHYBA: Uživatele s ID:$_POST[id_user] se nepodařilo smazat z databáze.";
+                $tplData['delete'] = "CHYBA: Uživatele s ID:$_POST[id_user] se nepodařilo smazat z databáze. (Nepodařilo se smazat jeho recenze tábořišť)";
             }
+
+
         }
 
         //// nactu aktulani data uzivatelu

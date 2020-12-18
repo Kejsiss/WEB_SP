@@ -36,22 +36,42 @@ class MakeCampController implements IController
         $tplData['isUserLogged'] = $this->um->isUserLogged();
         $tplData['allRivers'] = $this->db->getAllRivers();
 
-        //NEFUNGUJE TO POD TIM
 
         if(isset($_POST['action']) and $_POST['action'] == "addCamp" and isset($_POST['camp']) && isset($_POST['capacity'])
             && isset($_POST['price']) && isset($_POST['river'])
             && $_POST['camp'] != "" && $_POST['capacity'] > 0 && $_POST['price'] > 0
         ) {
 
-            if(isset($_POST['parking']))
+            if(empty($_POST['parking']) == true)
             {
-                $parking = "1";
+                $parking = '0';
             }else{
-                $parking = "0"  ;
+                $parking = '1'  ;
+            }
+
+            if(empty($_POST['wc']) == true)
+            {
+                $wc = '0';
+            }else{
+                $wc = '1';
+            }
+
+            if(empty($_POST['showers']) == true)
+            {
+                $showers = '0';
+            }else{
+                $showers = '1'  ;
+            }
+
+            if(empty($_POST['restaurant']) == true)
+            {
+                $restaurant = '0';
+            }else{
+                $restaurant = '1'  ;
             }
 
             $ok = $this->db->addCamp($_POST['camp'], $_POST['capacity'], $_POST['price']
-                ,$parking , $_POST['wc'], $_POST['showers'], $_POST['restaurant'], $_POST['river']);
+                ,$parking , $wc, $showers, $restaurant, $_POST['river']);
             if ($ok) {
                 $tplData['addCamp'] = "OK: Tábořiště bylo přidáno do databáze.";
             } else {
