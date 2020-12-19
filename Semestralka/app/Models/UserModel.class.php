@@ -26,48 +26,6 @@ class UserModel {
     }
 
     /**
-     *  Provede dotaz a bud vrati ziskana data, nebo pri chybe ji vypise a vrati null.
-     *
-     *  @param string $dotaz        SQL dotaz.
-     *  @return PDOStatement|null    Vysledek dotazu.
-     */
-    private function executeQuery(string $dotaz){
-        // vykonam dotaz
-        $res = $this->pdo->query($dotaz);
-        // pokud neni false, tak vratim vysledek, jinak null
-        if ($res) {
-            // neni false
-            return $res;
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Jednoduche cteni z prislusne DB tabulky.
-     *
-     * @param string $tableName         Nazev tabulky.
-     * @param string $whereStatement    Pripadne omezeni na ziskani radek tabulky. Default "".
-     * @param string $orderByStatement  Pripadne razeni ziskanych radek tabulky. Default "".
-     * @return array                    Vraci pole ziskanych radek tabulky.
-     */
-    public function selectFromTable(string $tableName, string $whereStatement = ""):array {
-        // slozim dotaz
-        $q = "SELECT * FROM ".$tableName
-            .(($whereStatement == "") ? "" : " WHERE $whereStatement");
-
-
-        // provedu ho a vratim vysledek
-        $obj = $this->executeQuery($q);
-        // pokud je null, tak vratim prazdne pole
-        if($obj == null){
-            return [];
-        }
-        // prevedu vsechny ziskane radky tabulky na pole
-        return $obj->fetchAll();
-    }
-
-    /**
      * Overi, zda muse byt uzivatel prihlasen a pripadne ho prihlasi.
      *
      * @param string $login     Login uzivatele.
@@ -76,27 +34,38 @@ class UserModel {
      */
     public function userLogin(string $login, string $password){
 
-        $where = "username='$login'";
-        $user = $this->selectFromTable(TABLE_UZIVATEL, $where);
-        // ziskal jsem uzivatele
-        if(count($user)){
-            $hashedPassword = $user[0]['heslo'];
-            if(password_verify($password, $hashedPassword)) {
-                // ziskal - ulozim ho do session
+        $login = htmlspecialchars($login);
+        $password = htmlspecialchars($password);
+
+        $q = "SELECT * FROM ".TABLE_UZIVATEL." WHERE username = :login";
 
 
-                MySessions::setSession($this->userSessionKey,$user[0]['id_UZIVATEL']);
-                MySessions::setSession($this->userSessionRight, $user[0]['id_pravo']);
+        $res = $this->pdo->prepare($q);
+        $res->bindValue("login",$login);
 
-                //$_SESSION[$this->userSessionKey] = $user[0]['id_UZIVATEL']; // beru prvniho nalezeneho a ukladam jen jeho ID
-                return true;
-            }
 
-        } else {
-            // neziskal jsem uzivatele
-            return false;
+        // pokud neni false, tak vratim vysledek, jinak null
+        if ($res->execute()) {
+
+                $vysledek = $res->fetch(PDO::FETCH_OBJ);
+                $hashedPassword = $vysledek->heslo;
+                if(password_verify($password, $hashedPassword)) {
+                    // ziskal - ulozim ho do session
+
+
+                    MySessions::setSession($this->userSessionKey,$vysledek->id_UZIVATEL);
+                    MySessions::setSession($this->userSessionRight, $vysledek->id_pravo);
+                    return true;
+
+                } else {
+                    // neziskal jsem uzivatele
+                    return false;
+                }
         }
+        else { return false; }
     }
+
+
 
     /**
      * Odhlasi soucasneho uzivatele.
@@ -132,12 +101,19 @@ class UserModel {
      *  @param int $userId  ID uzivatele.
      */
     public function deleteUser(int $userId):bool {
+
+        $userId = htmlspecialchars($userId);
+
         // pripravim dotaz
-        $q = "DELETE FROM ".TABLE_UZIVATEL." WHERE id_UZIVATEL = $userId";
-        // provedu dotaz
-        $res = $this->pdo->query($q);
+        $q = "DELETE FROM ".TABLE_UZIVATEL." WHERE id_UZIVATEL = :userID";
+
+
+        $res = $this->pdo->prepare($q);
+        $res->bindValue("userID",$userId);
+
+
         // pokud neni false, tak vratim vysledek, jinak null
-        if ($res) {
+        if ($res->execute()) {
             // neni false
             return true;
         } else {
@@ -149,15 +125,28 @@ class UserModel {
 
     public function addUser(string $login, string $heslo, string $jmeno, string $prijmeni, string $email, int $idPravo):bool{
 
+        $login = htmlspecialchars($login);
+        $heslo = htmlspecialchars($heslo);
+        $jmeno = htmlspecialchars($jmeno);
+        $prijmeni = htmlspecialchars($prijmeni);
+        $email = htmlspecialchars($email);
+
         $heslo = password_hash($heslo, PASSWORD_DEFAULT);
 
         $q = "INSERT INTO ".TABLE_UZIVATEL."(username,heslo,jmeno,prijmeni,email,id_PRAVO) 
-        VALUES('$login', '$heslo', '$jmeno', '$prijmeni','$email', $idPravo)";
+        VALUES(:login, :heslo, :jmeno, :prijmeni, :email, :id_pravo)";
 
-            // provedu dotaz
-        $res = $this->pdo->query($q);
+
+        $res = $this->pdo->prepare($q);
+        $res->bindValue("login",$login);
+        $res->bindValue("heslo",$heslo);
+        $res->bindValue("jmeno",$jmeno);
+        $res->bindValue("prijmeni",$prijmeni);
+        $res->bindValue("email",$email);
+        $res->bindValue("id_pravo",$idPravo);
+
         // pokud neni false, tak vratim vysledek, jinak null
-        if ($res) {
+        if ($res->execute()) {
             // neni false
             return true;
         } else {
@@ -168,12 +157,15 @@ class UserModel {
 
     public function appointManager($userId):bool{
 
-        $q ="UPDATE ".TABLE_UZIVATEL." SET id_pravo = 2 WHERE id_UZIVATEL = $userId";
+        $userId = htmlspecialchars($userId);
 
-            // provedu dotaz
-        $res = $this->pdo->query($q);
+        $q ="UPDATE ".TABLE_UZIVATEL." SET id_pravo = 2 WHERE id_UZIVATEL = :userId";
+
+        $res = $this->pdo->prepare($q);
+        $res->bindValue("userId",$userId);
+
         // pokud neni false, tak vratim vysledek, jinak null
-        if ($res) {
+        if ($res->execute()) {
             // neni false
             return true;
         } else {
@@ -187,14 +179,5 @@ class UserModel {
         return $this->pdo->query($q)->fetchAll();
     }
 
-    public function getAllRights():array{
-        $q = "SELECT * FROM ".TABLE_PRAVO;
-        return $this->pdo->query($q)->fetchAll();
-    }
-
-    public function getRightById(int $userId):int {
-        $q = "SELECT id_pravo FROM ".TABLE_UZIVATEL." WHERE id_UZIVATEL = $userId";
-        return $this->pdo->query($q)->fetch();
-    }
 }
 ?>
