@@ -1,29 +1,7 @@
 <?php
 ///////////////////////////////////////////////////////////////////////////
-/////////// Sablona pro zobrazeni stranky se spravou uzivatelu  ///////////
+///// Sablona pro zobrazeni stranky s recenenzemi konkretni reky   ////////
 ///////////////////////////////////////////////////////////////////////////
-
-//// pozn.: sablona je samostatna a provadi primy vypis do vystupu:
-// -> lze testovat bez zbytku aplikace.
-// -> pri vyuziti Twigu se sablona obejde bez PHP.
-
-/*
-////// Po zakomponovani do zbytku aplikace bude tato cast odstranena/zakomentovana  //////
-//// UKAZKA DAT: Uvod bude vypisovat informace z tabulky, ktera ma nasledujici sloupce:
-// id, date, author, title, text
-$tplData['title'] = "Sprava uživatelů (TPL)";
-$tplData['users'] = [
-    array("id_user" => 1, "first_name" => "František", "last_name" => "Noha",
-            "login" => "frnoha", "password" => "Tajne*Heslo", "email" => "fr.noha@ukazka.zcu.cz", "web" => "www.zcu.cz")
-];
-$tplData['delete'] = "Úspěšné mazání.";
-define("DIRECTORY_VIEWS", "../Views");
-const WEB_PAGES = array(
-    "uvod" => array("title" => "Sprava uživatelů (TPL)")
-);
-////// KONEC: Po zakomponovani do zbytku aplikace bude tato cast odstranena/zakomentovana  //////
-*/
-
 
 //// vypis sablony
 // urceni globalnich promennych, se kterymi sablona pracuje

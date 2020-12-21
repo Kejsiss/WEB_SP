@@ -2,10 +2,14 @@
 
 /**
  *  Objekt pro praci se Session.
- *  @author Michal Nykl
+ * @author Kment
  */
 class MySessions{
 
+    /**
+     * Metoda vraci zda session jiz zacala nebo ne
+     * @return bool zda zacala nebo ne
+     */
     public static function sessionStarted() {
         if(session_id() == '') {
             return false;
@@ -14,6 +18,11 @@ class MySessions{
         }
     }
 
+    /**
+     * Metoda vraci zda session z danym jmenem existuje
+     * @param $session jmeno sessionu
+     * @return bool zda existuje
+     */
     public static function sessionExists($session) {
         if(self::sessionStarted() == false) {
             session_start();
@@ -25,6 +34,11 @@ class MySessions{
         }
     }
 
+    /**
+     * Natavuje session
+     * @param $session jmeno
+     * @param $value hodnota
+     */
     public static function setSession($session, $value) {
         try{
             if(self::sessionStarted() != true) {
@@ -40,6 +54,11 @@ class MySessions{
 
     }
 
+    /**
+     * vraci bezici session nebo ji zacina
+     * @param $session bezici session
+     * @return mixed
+     */
     public static function getSession($session) {
         try{
             if(self::sessionStarted() != true) {
@@ -56,6 +75,10 @@ class MySessions{
 
     }
 
+    /**
+     * Odstarani session s danym jmenem
+     * @param $session jmeno
+     */
     public static function removeSession($session) {
         try{
             if(isset($_SESSION[$session])) {

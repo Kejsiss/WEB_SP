@@ -2,6 +2,11 @@
 // nactu rozhrani kontroleru
 require_once(DIRECTORY_CONTROLLERS."/IController.interface.php");
 
+/**
+ * Kontroller obstarava registraci uzivatele
+ * @author Kment
+ * Class RegisterController
+ */
 class RegisterController implements IController
 {
 
@@ -18,7 +23,7 @@ class RegisterController implements IController
     }
 
     /**
-     * Vrati obsah stranky se seznamem rek
+     * Vrati obsah stranky
      * @param string $pageTitle     Nazev stranky.
      * @return string               Vypis v sablone.
      */
@@ -37,10 +42,13 @@ class RegisterController implements IController
 
             // provedu smazani uzivatele
             $ok = $this->um->addUser($_POST['login'],$_POST['heslo'],$_POST['usrn'],$_POST['surn'],$_POST['mail'],3);
-            if($ok){
+            if($ok == 0){
                 $tplData['addUser'] = "OK: Uživatel $_POST[login] byl přidán do databáze.";
-            } else {
+            } else if($ok == 1) {
                 $tplData['addUser'] = "CHYBA: Uživatele $_POST[login] se nepodařilo přidat do databáze.";
+            }
+            else{
+                $tplData['addUser'] = "CHYBA: Uživatel s loginem $_POST[login] již existuje.";
             }
         }
 

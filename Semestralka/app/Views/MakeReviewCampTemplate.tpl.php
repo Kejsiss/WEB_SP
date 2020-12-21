@@ -31,6 +31,7 @@ if(isset($tplData['addCampReview'])){
 }
 
 if($tplData['isUserLogged']){
+    //SEKCE PRO PRIHLASENE UZIVATELE
     ?>
     <div class="container" id="inputTab text-center">
         <h4 class="text-center">Pro napsání recenze tábořiště musíš mít nejdřív napsanou recenzi pro danou řeku!</h4><br>
@@ -79,6 +80,7 @@ if($tplData['isUserLogged']){
             });
         });
 
+        //metoda meni sjezdy uzivatele dle vybraneho taboriste (konkretne jeho reky)
         function changeRiver(){
 
             var kemp = $("#kemp").val();
@@ -89,7 +91,7 @@ if($tplData['isUserLogged']){
 
             $.get({
                 type: "POST",
-                url: "/dashboard\\phpZkouska\\WEB_SP\\Semestralka\\app\\Controllers\\zkouska.php",
+                url: "/dashboard\\phpZkouska\\WEB_SP\\Semestralka\\app\\Controllers\\AjaxConnector.php",
                 cache:false,
                 data: {id : id, reka : river, uzivatel : user},
                 success: function(response){
@@ -100,10 +102,10 @@ if($tplData['isUserLogged']){
                 }
             });
         }
-
     </script>
     <?php
 }else {
+    //SEKCE PRO NEPRIHLASENE UZIVATELE
     ?>
     <h1 class="text-center">Tato sekce je pouze pro přihlášené uživatele</h1>
     <?php

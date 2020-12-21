@@ -2,6 +2,11 @@
 // nactu rozhrani kontroleru
 require_once(DIRECTORY_CONTROLLERS."/IController.interface.php");
 
+/**
+ * Kontroller se stara o vytvoreni reky
+ * @author Kment
+ * Class MakeRiverController
+ */
 class MakeRiverController implements IController
 {
 

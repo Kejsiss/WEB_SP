@@ -1,29 +1,7 @@
 <?php
 ///////////////////////////////////////////////////////////////////////////
-/////////// Sablona pro zobrazeni stranky se spravou uzivatelu  ///////////
+/////////// Sablona pro zobrazeni stranky s kempy  ////////////////////////
 ///////////////////////////////////////////////////////////////////////////
-
-//// pozn.: sablona je samostatna a provadi primy vypis do vystupu:
-// -> lze testovat bez zbytku aplikace.
-// -> pri vyuziti Twigu se sablona obejde bez PHP.
-
-/*
-////// Po zakomponovani do zbytku aplikace bude tato cast odstranena/zakomentovana  //////
-//// UKAZKA DAT: Uvod bude vypisovat informace z tabulky, ktera ma nasledujici sloupce:
-// id, date, author, title, text
-$tplData['title'] = "Sprava uživatelů (TPL)";
-$tplData['users'] = [
-    array("id_user" => 1, "first_name" => "František", "last_name" => "Noha",
-            "login" => "frnoha", "password" => "Tajne*Heslo", "email" => "fr.noha@ukazka.zcu.cz", "web" => "www.zcu.cz")
-];
-$tplData['delete'] = "Úspěšné mazání.";
-define("DIRECTORY_VIEWS", "../Views");
-const WEB_PAGES = array(
-    "uvod" => array("title" => "Sprava uživatelů (TPL)")
-);
-////// KONEC: Po zakomponovani do zbytku aplikace bude tato cast odstranena/zakomentovana  //////
-*/
-
 
 //// vypis sablony
 // urceni globalnich promennych, se kterymi sablona pracuje
@@ -53,6 +31,7 @@ $res = "<h2 class='text-center'>Naše databáze obsahuje následující táboři
 
 foreach($tplData['camps'] as $c){
     $res .= "<h3><a href='index.php?page=recenzeKempu/".$c['id_TABORISTE']."'>$c[nazev]</a></h3>"
+        ."<p class='font-weight-bold'>Řeka: $c[reka]</p>"
         ."<p>Kapacita tábořiště: $c[kapacita]</p>"
         ."<p>Cena za noc: $c[cena_za_noc]</p>"
         ."<p>Parkoviště: ".(boolval($c['parkoviste']) ? 'Ano' : 'Ne')."</p>"

@@ -2,6 +2,11 @@
 // nactu rozhrani kontroleru
 require_once(DIRECTORY_CONTROLLERS."/IController.interface.php");
 
+/**
+ * Kontroller se stara o vypis recenzi dane reky
+ * @author Kment
+ * Class ReviewsRiversController
+ */
 class ReviewsRiversController implements IController
 {
 
@@ -18,7 +23,7 @@ class ReviewsRiversController implements IController
     }
 
     /**
-     * Vrati obsah stranky se seznamem rek
+     * Vrati obsah stranky
      * @param string $pageTitle     Nazev stranky.
      * @return string               Vypis v sablone.
      */
@@ -32,19 +37,6 @@ class ReviewsRiversController implements IController
         $id = explode("/",$_GET["page"])[1];
 
         $tplData['vypisRek'] = $this->db->getReviewByRiver($id);
-
-        /*if(isset($_POST['action']) and $_POST['action'] == "vypis"
-            and isset($_POST['id_REKA'])
-        ){
-
-            $tplData['vypis'] = $this->db->getReviewByRiver(intval($_POST['id_REKA']));
-        }
-
-
-        if(isset($_POST['action']) and $_POST['action'] == "vypisAll"){
-            // provedu smazani uzivatele
-            $tplData['vypisAll'] = $this->db->getAllReviewsRivers();
-        }*/
 
         //// vypsani prislusne sablony
         // zapnu output buffer pro odchyceni vypisu sablony

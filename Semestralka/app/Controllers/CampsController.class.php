@@ -2,6 +2,11 @@
 // nactu rozhrani kontroleru
 require_once(DIRECTORY_CONTROLLERS."/IController.interface.php");
 
+/**
+ * Kontroller se stara o vypis kempu
+ * @author Kment
+ * Class CampsController
+ */
 class CampsController implements IController
 {
 

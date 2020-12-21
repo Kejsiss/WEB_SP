@@ -2,6 +2,11 @@
 // nactu rozhrani kontroleru
 require_once(DIRECTORY_CONTROLLERS."/IController.interface.php");
 
+/**
+ * Kontroller se stara o vypis recenzi uzivatele
+ * @author Kment
+ * Class ReviewListController
+ */
 class ReviewListController implements IController
 {
 
@@ -22,7 +27,7 @@ class ReviewListController implements IController
     }
 
     /**
-     * Vrati obsah stranky se seznamem rek
+     * Vrati obsah stranky
      * @param string $pageTitle     Nazev stranky.
      * @return string               Vypis v sablone.
      */
@@ -33,9 +38,6 @@ class ReviewListController implements IController
         // nazev
         $tplData['title'] = $pageTitle;
 
-        $tplData['isUserLogged'] = $this->um->isUserLogged();
-        $tplData['reviewedRivers'] = $this->db->getRiversReviewsByUser(MySessions::getSession("current_user_id"));
-        $tplData['reviewedCamps'] = $this->db->getCampsReviewsByUser(MySessions::getSession("current_user_id"));
 
         if(isset($_POST['action']) and $_POST['action'] == "deleteRiverReview"
             and isset($_POST['id_sjizdi'])
@@ -51,7 +53,7 @@ class ReviewListController implements IController
 
         if(isset($_POST['action']) and $_POST['action'] == "deleteCampReview"
             and isset($_POST['id_tabori'])
-        ){;
+        ){
             // provedu smazani uzivatele
             $ok = $this->db->deleteCampReview(intval($_POST['id_tabori']));
             if($ok){
@@ -60,6 +62,10 @@ class ReviewListController implements IController
                 $tplData['deleteCampReview'] = "CHYBA: Recenzi se nepodařilo smazat z databáze (nejspíš je potřeba nejdříve smazat recenzi tábořiště).";
             }
         }
+
+        $tplData['isUserLogged'] = $this->um->isUserLogged();
+        $tplData['reviewedRivers'] = $this->db->getRiversReviewsByUser(MySessions::getSession("current_user_id"));
+        $tplData['reviewedCamps'] = $this->db->getCampsReviewsByUser(MySessions::getSession("current_user_id"));
 
         //// vypsani prislusne sablony
         // zapnu output buffer pro odchyceni vypisu sablony

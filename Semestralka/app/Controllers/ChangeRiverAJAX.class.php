@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Trida se stara o dodani dat AJAXU
+ * @author Kment
+ * Class ChangeRiverAJAX
+ */
 class ChangeRiverAJAX
 {
 
@@ -19,7 +24,6 @@ class ChangeRiverAJAX
     public function getSjizdi($river, $userId){
 
             $data = $this->db->getRiverDown($river, $userId);
-
         $final = "";
         foreach ($data as $d){
             $final .= "<option value='$d[id_SJIZDI]'>$d[datum_sjezdu]</option>";

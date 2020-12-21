@@ -1,11 +1,8 @@
 <?php
 ///////////////////////////////////////////////////////////////////////////
-/////////// Sablona pro zobrazeni stranky se spravou uzivatelu  ///////////
+/////////// Sablona pro zobrazeni stranky s urcenim spravce  //////////////
 ///////////////////////////////////////////////////////////////////////////
 
-//// pozn.: sablona je samostatna a provadi primy vypis do vystupu:
-// -> lze testovat bez zbytku aplikace.
-// -> pri vyuziti Twigu se sablona obejde bez PHP.
 
 //// vypis sablony
 // urceni globalnich promennych, se kterymi sablona pracuje
@@ -31,6 +28,7 @@ if(isset($tplData['makeManager'])){
 }
 
 if($tplData['isUserLogged']){
+    //SEKCE PRO PRIHLASENE UZIVATELE
     ?>
     <div class="container" id="inputTab text-center">
         <h4 class="text-center">Zde můžeš určovat správce!</h4><br>
@@ -40,8 +38,6 @@ if($tplData['isUserLogged']){
                     <label for="role" class="col-sm-6">Vodáci:&nbsp</label>
                     <select name="paddlers" id="vodaci">
                         <?php
-                        // ziskam vsechna prava
-                        // projdu je a vypisu
                         foreach($tplData['paddlers'] as $p){
                             echo "<option value='$p[id_UZIVATEL]'>$p[username]</option>";
                         }
@@ -57,12 +53,13 @@ if($tplData['isUserLogged']){
     <br>
     <?php
 }else {
+    //SEKCE PRO NEPRIHLASENE UZIVATELE
     ?>
     <h1 class="text-center">Tato sekce je pouze pro přihlášené uživatele</h1>
     <?php
 }
 
 // paticka
-$tplHeaders->getHTMLFooter();
+$tplHeaders->getHTMLFooterManagement();
 
 ?>

@@ -1,11 +1,7 @@
 <?php
 ///////////////////////////////////////////////////////////////////////////
-/////////// Sablona pro zobrazeni stranky se spravou uzivatelu  ///////////
+///// Sablona pro zobrazeni stranky se spravou uzivatelsky recenzi  ///////
 ///////////////////////////////////////////////////////////////////////////
-
-//// pozn.: sablona je samostatna a provadi primy vypis do vystupu:
-// -> lze testovat bez zbytku aplikace.
-// -> pri vyuziti Twigu se sablona obejde bez PHP.
 
 //// vypis sablony
 // urceni globalnich promennych, se kterymi sablona pracuje
@@ -31,16 +27,24 @@ $tplHeaders = new ZakladHTML();
 // hlavicka
 $tplHeaders->getHTMLHeader($tplData['title']);
 
-$res = "<h2 class='text-center'>Vyber uživatele u kterého chceš spravovat recenze:</h2><br><div class='container'>";
+if($tplData['isUserLogged']) {
+    //SEKCE PRO PRIHLASENE UZIVATELE
 
-foreach($tplData['users'] as $u){
-    $res .= "<h3><a href='index.php?page=recenzeUzivatel/".$u['id_UZIVATEL']."'>$u[username]</a></h3><hr>";
+    $res = "<h2 class='text-center'>Vyber uživatele u kterého chceš spravovat recenze:</h2><br><div class='container'>";
+
+    foreach($tplData['users'] as $u){
+        $res .= "<h3><a href='index.php?page=recenzeUzivatel/".$u['id_UZIVATEL']."'>$u[username]</a></h3><hr>";
+    }
+
+    $res .= "</div>";
+
+    echo $res;
+
 }
-
-$res .= "</div>";
-
-echo $res;
-
+else {
+    //SEKCE PRO NEPRIHLASENE UZIVATELE
+    echo "<h1 class='text-center'>Tato sekce je pouze pro přihlášené uživatele</h1>";
+}
 
 // paticka
 $tplHeaders->getHTMLFooter();

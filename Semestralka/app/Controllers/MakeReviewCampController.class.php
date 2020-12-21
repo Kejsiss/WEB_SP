@@ -2,6 +2,11 @@
 // nactu rozhrani kontroleru
 require_once(DIRECTORY_CONTROLLERS."/IController.interface.php");
 
+/**
+ * Kontroller se stara o vytvoreni recenze kempu
+ * @author Kment
+ * Class MakeReviewCampController
+ */
 class MakeReviewCampController implements IController
 {
 
@@ -22,7 +27,7 @@ class MakeReviewCampController implements IController
     }
 
     /**
-     * Vrati obsah stranky se seznamem rek
+     * Vrati obsah stranky
      * @param string $pageTitle     Nazev stranky.
      * @return string               Vypis v sablone.
      */

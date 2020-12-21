@@ -51,6 +51,16 @@ class ZakladHTML {
                     width:100%;
                     margin-top: 100%;
                 }
+                .footerManagement{
+                    background-color: #341C09;
+                    margin-bottom: 0;
+                    padding-bottom: 0;
+
+                    position:fixed;
+                    bottom:0;
+                    width:100%;
+                    margin-top: 100%;
+                }
                 h1{
                     color: #341C09;
                     font-weight: bold;
@@ -80,19 +90,7 @@ class ZakladHTML {
                 .center {
                     margin-left: auto;
                     margin-right: auto;
-                }
-                /* Extra small devices (phones, 600px and down) */
-                /*@media only screen and (min-width: 600px) {
-                    footer{
-                        background-color: #341C09;
-                        margin-bottom: 0;
-                        padding-bottom: 0;
-                        margin-top: 100%;
-                        position: absolute;
-                        bottom: 0;
-                        width: 100%;
-                    }
-                }*/
+
             </style>
 
         </head>
@@ -186,5 +184,23 @@ class ZakladHTML {
         <?php
     }
 
+
+    /**
+     *  Vytvoreni paticky urceni spravce.
+     */
+    public function getHTMLFooterManagement(){
+        ?>
+        <footer class="py-1 mt-1 text-center font-weight-bold relative-bottom footerManagement">
+            <h5 style="color: #FC7307; padding-top: 1%; padding-bottom: 1%">&copy;Tomáš Kment 2020</h5>
+        </footer>
+        </body>
+
+        <!-- ------------- JavaScripty ------------- -->
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+        </html>
+        <?php
+    }
 }
 ?>

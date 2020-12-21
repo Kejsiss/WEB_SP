@@ -1,5 +1,7 @@
 <?php
 
+    //PROPOJUJE AJAX V VYTVARENI RECENZE TABORISTE S DATABAZI
+
 require_once ("ChangeRiverAJAX.class.php");
 
 
@@ -9,6 +11,5 @@ require_once ("ChangeRiverAJAX.class.php");
     $r = new ChangeRiverAJAX();
 
     $result = $r->getSjizdi($_POST['reka'], $_POST['uzivatel']);
-
     echo $result;
 

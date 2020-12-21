@@ -2,6 +2,11 @@
 // nactu rozhrani kontroleru
 require_once(DIRECTORY_CONTROLLERS."/IController.interface.php");
 
+/**
+ * Kontroller se stara o vypis vsech uzivatelu pro vybrani jejich recenzi
+ * @author Kment
+ * Class UserReviewsManagementController
+ */
 class UserReviewsManagementController implements IController
 {
 
@@ -18,7 +23,7 @@ class UserReviewsManagementController implements IController
     }
 
     /**
-     * Vrati obsah stranky se seznamem rek
+     * Vrati obsah stranky
      * @param string $pageTitle     Nazev stranky.
      * @return string               Vypis v sablone.
      */
@@ -32,6 +37,7 @@ class UserReviewsManagementController implements IController
 
         //// nactu aktulani data uzivatelu
         $tplData['users'] = $this->um->getAllUsers();
+        $tplData['isUserLogged'] = $this->um->isUserLogged();
 
         //// vypsani prislusne sablony
         // zapnu output buffer pro odchyceni vypisu sablony

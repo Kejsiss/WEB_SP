@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Trida spravujici databazi.
+ * Trida spravujici pripojeni uzivatele
+ * @author Kment
  */
 class UserModel {
 
@@ -48,19 +49,24 @@ class UserModel {
         if ($res->execute()) {
 
                 $vysledek = $res->fetch(PDO::FETCH_OBJ);
-                $hashedPassword = $vysledek->heslo;
-                if(password_verify($password, $hashedPassword)) {
-                    // ziskal - ulozim ho do session
+                if($vysledek != null)
+                {
+                    $hashedPassword = $vysledek->heslo;
+                    if(password_verify($password, $hashedPassword)) {
+                        // ziskal - ulozim ho do session
 
 
-                    MySessions::setSession($this->userSessionKey,$vysledek->id_UZIVATEL);
-                    MySessions::setSession($this->userSessionRight, $vysledek->id_pravo);
-                    return true;
+                        MySessions::setSession($this->userSessionKey,$vysledek->id_UZIVATEL);
+                        MySessions::setSession($this->userSessionRight, $vysledek->id_pravo);
+                        return true;
 
-                } else {
-                    // neziskal jsem uzivatele
-                    return false;
+                    } else {
+                        // neziskal jsem uzivatele
+                        return false;
+                    }
                 }
+                else{ return false; }
+
         }
         else { return false; }
     }
@@ -76,8 +82,6 @@ class UserModel {
 
     /**
      * Test, zda je nyni uzivatel prihlasen.
-     *
-     * @return bool     Je prihlasen?
      */
     public function isUserLogged(){
         return MySessions::sessionExists($this->userSessionKey);
@@ -90,7 +94,7 @@ class UserModel {
      */
     public function getAllUsers():array {
         // pripravim dotaz
-        $q = "SELECT * FROM ".TABLE_UZIVATEL;
+        $q = "SELECT * FROM ".TABLE_UZIVATEL." ORDER BY username";
         // provedu a vysledek vratim jako pole
         // protoze je o uzkazku, tak netestuju, ze bylo neco vraceno
         return $this->pdo->query($q)->fetchAll();
@@ -123,7 +127,20 @@ class UserModel {
     }
 
 
-    public function addUser(string $login, string $heslo, string $jmeno, string $prijmeni, string $email, int $idPravo):bool{
+    /**
+     * Prida uzivatele do dabaze
+     * @param string $login username
+     * @param string $heslo heslo
+     * @param string $jmeno krestni
+     * @param string $prijmeni prijmeni
+     * @param string $email mail
+     * @param int $idPravo pravo = 3  => vodak
+     * @return int podle toho jak dopadl
+     * 0 OK
+     * 1 nastala chyba
+     * 2 username je zabrany
+     */
+    public function addUser(string $login, string $heslo, string $jmeno, string $prijmeni, string $email, int $idPravo):int{
 
         $login = htmlspecialchars($login);
         $heslo = htmlspecialchars($heslo);
@@ -132,6 +149,8 @@ class UserModel {
         $email = htmlspecialchars($email);
 
         $heslo = password_hash($heslo, PASSWORD_DEFAULT);
+
+        $hq = "SELECT * FROM ".TABLE_UZIVATEL." WHERE username = :login";
 
         $q = "INSERT INTO ".TABLE_UZIVATEL."(username,heslo,jmeno,prijmeni,email,id_PRAVO) 
         VALUES(:login, :heslo, :jmeno, :prijmeni, :email, :id_pravo)";
@@ -145,16 +164,33 @@ class UserModel {
         $res->bindValue("email",$email);
         $res->bindValue("id_pravo",$idPravo);
 
-        // pokud neni false, tak vratim vysledek, jinak null
-        if ($res->execute()) {
-            // neni false
-            return true;
-        } else {
-            // je false
-            return false;
+        $resh = $this->pdo->prepare($hq);
+        $resh->bindValue("login",$login);
+
+        if ($resh->execute()) {
+
+            $sameUsername = $resh->fetch(PDO::FETCH_OBJ);
+            if($sameUsername == null)
+            {
+                if ($res->execute()) {
+
+                    return 0;
+                } else {
+
+                    return 1;
+                }
+            }
+            else{ return 2;}
         }
+        else{ return 1;}
+
     }
 
+    /**
+     * Metoda urci spravce
+     * @param $userId ID budouciho spravce
+     * @return bool true pokud OK
+     */
     public function appointManager($userId):bool{
 
         $userId = htmlspecialchars($userId);
@@ -174,6 +210,10 @@ class UserModel {
         }
     }
 
+    /**
+     * Vraci vsechny vodaky
+     * @return array pole vodaku
+     */
     public function getAllPaddlers():array{
         $q = "SELECT id_UZIVATEL, username FROM ".TABLE_UZIVATEL." WHERE id_pravo = 3";
         return $this->pdo->query($q)->fetchAll();

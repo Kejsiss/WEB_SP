@@ -1,11 +1,7 @@
 <?php
 ///////////////////////////////////////////////////////////////////////////
-/////////// Sablona pro zobrazeni stranky se spravou uzivatelu  ///////////
+/////////// Sablona pro zobrazeni stranky se spravou recenzi  /////////////
 ///////////////////////////////////////////////////////////////////////////
-
-//// pozn.: sablona je samostatna a provadi primy vypis do vystupu:
-// -> lze testovat bez zbytku aplikace.
-// -> pri vyuziti Twigu se sablona obejde bez PHP.
 
 //// vypis sablony
 // urceni globalnich promennych, se kterymi sablona pracuje
@@ -37,6 +33,7 @@ if(isset($tplData['deleteCampReview'])){
 }
 
 if($tplData['isUserLogged']){
+    //SEKCE PRO PRIHLASENE UZIVATELE
     ?>
     <div class="container" id="inputTab text-center">
         <h4 class="text-center">Zde máš vypsané všechny své recenze!</h4><br>
@@ -74,6 +71,7 @@ if($tplData['isUserLogged']){
     <br>
     <?php
 }else {
+    //SEKCE PRO NEPRIHLASENE UZIVATELE
     ?>
     <h1 class="text-center">Tato sekce je pouze pro přihlášené uživatele</h1>
     <?php

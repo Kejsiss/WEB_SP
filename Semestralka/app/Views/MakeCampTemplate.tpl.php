@@ -1,11 +1,8 @@
 <?php
 ///////////////////////////////////////////////////////////////////////////
-/////////// Sablona pro zobrazeni stranky se spravou uzivatelu  ///////////
+/////////// Sablona pro zobrazeni stranky s vytvarenim kempu  /////////////
 ///////////////////////////////////////////////////////////////////////////
 
-//// pozn.: sablona je samostatna a provadi primy vypis do vystupu:
-// -> lze testovat bez zbytku aplikace.
-// -> pri vyuziti Twigu se sablona obejde bez PHP.
 
 //// vypis sablony
 // urceni globalnich promennych, se kterymi sablona pracuje
@@ -31,6 +28,7 @@ if(isset($tplData['addCamp'])){
 }
 
 if($tplData['isUserLogged']){
+    //SEKCE PRO PRIHLASENE UZIVATELE
     ?>
     <div class="container" id="inputTab text-center">
         <h4 class="text-center">Zde můžeš přidat tábořiště do databáze!</h4><br>
@@ -68,8 +66,6 @@ if($tplData['isUserLogged']){
                     <label for="reka" class="col-sm-6">Řeka:&nbsp</label>
                     <select name="river" id="reka">
                         <?php
-                        // ziskam vsechna prava
-                        // projdu je a vypisu
                         foreach($tplData['allRivers'] as $r){
                             echo "<option value='$r[id_REKA]'>$r[nazev]</option>";
                         }
@@ -85,6 +81,7 @@ if($tplData['isUserLogged']){
     <br>
     <?php
 }else {
+    //SEKCE PRO NEPRIHLASENE UZIVATELE
     ?>
     <h1 class="text-center">Tato sekce je pouze pro přihlášené uživatele</h1>
     <?php

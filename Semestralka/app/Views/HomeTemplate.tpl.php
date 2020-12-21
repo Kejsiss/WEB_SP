@@ -1,13 +1,8 @@
 <?php
 ///////////////////////////////////////////////////////////////////////////
-/////////// Sablona pro zobrazeni stranky se spravou uzivatelu  ///////////
+/////////// Sablona pro zobrazeni stranky domova  /////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 
-//// pozn.: sablona je samostatna a provadi primy vypis do vystupu:
-// -> lze testovat bez zbytku aplikace.
-// -> pri vyuziti Twigu se sablona obejde bez PHP.
-
-//// vypis sablony
 // urceni globalnich promennych, se kterymi sablona pracuje
 global $tplData;
 

@@ -1,10 +1,11 @@
 <?php
+///////////////////////////////////////////////////////////////////////////
+//////// Sablona pro zobrazeni stranky s uzivatelskymi recenzemi  /////////
+///////////////////////////////////////////////////////////////////////////
 
 //// vypis sablony
 // urceni globalnich promennych, se kterymi sablona pracuje
 global $tplData;
-
-
 
 // pripojim objekt pro vypis hlavicky a paticky HTML
 require(DIRECTORY_VIEWS ."/ZakladHTML.class.php");
@@ -30,6 +31,7 @@ if(isset($tplData['deleteCampReview'])){
 }
 
 if($tplData['isUserLogged']){
+    //SEKCE PRO PRIHLASENE UZIVATELE
     ?>
     <div class="container" id="inputTab text-center">
         <h4 class="text-center">Zde máš vypsané všechny recenze vybraného uživatele!</h4><br>
@@ -68,6 +70,7 @@ if($tplData['isUserLogged']){
     </div>
 <?php
 }else {
+    //SEKCE PRO NEPRIHLASENE UZIVATELE
     ?>
     <h1 class="text-center">Tato sekce je pouze pro přihlášené uživatele</h1>
     <?php

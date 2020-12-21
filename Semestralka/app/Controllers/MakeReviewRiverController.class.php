@@ -2,6 +2,11 @@
 // nactu rozhrani kontroleru
 require_once(DIRECTORY_CONTROLLERS."/IController.interface.php");
 
+/**
+ * Kontroller se stara o vytvoreni recenze reky
+ * @author Kment
+ * Class MakeReviewRiverController
+ */
 class MakeReviewRiverController implements IController
 {
 
@@ -14,7 +19,6 @@ class MakeReviewRiverController implements IController
      */
     public function __construct() {
         // inicializace prace s DB
-        //require_once (DIRECTORY_MODELS ."/DatabaseModel.class.php");
         require_once (DIRECTORY_MODELS ."/UserModel.class.php");
         require_once (DIRECTORY_MODELS ."/DatabaseModel.class.php");
         require_once("MySessions.class.php");
@@ -23,7 +27,7 @@ class MakeReviewRiverController implements IController
     }
 
     /**
-     * Vrati obsah stranky se seznamem rek
+     * Vrati obsah stranky
      * @param string $pageTitle     Nazev stranky.
      * @return string               Vypis v sablone.
      */

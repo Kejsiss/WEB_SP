@@ -1,7 +1,5 @@
 <?php
 
-// vynuceni chybovych vypisu na serveru students.kiv.zcu.cz
-// ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL);
 
 // nactu vlastni nastaveni webu
 require_once("settings.inc.php");

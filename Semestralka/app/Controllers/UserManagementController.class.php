@@ -3,7 +3,8 @@
 require_once(DIRECTORY_CONTROLLERS."/IController.interface.php");
 
 /**
- * Ovladac zajistujici vypsani stranky se spravou uzivatelu.
+ * Ovladac zajistujici vypsani stranky se spravou uzivatelu
+ * @author Kment
  */
 class UserManagementController implements IController {
 
@@ -61,6 +62,7 @@ class UserManagementController implements IController {
 
         }
 
+        $tplData['isUserLogged'] = $this->um->isUserLogged();
         //// nactu aktulani data uzivatelu
         $tplData['users'] = $this->um->getAllUsers();
 

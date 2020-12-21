@@ -2,6 +2,11 @@
 // nactu rozhrani kontroleru
 require_once(DIRECTORY_CONTROLLERS."/IController.interface.php");
 
+/**
+ * Kontroller se stara o nastaveni spravce
+ * @author Kment
+ * Class MakeManagerController
+ */
 class MakeManagerController implements IController
 {
 
@@ -20,7 +25,7 @@ class MakeManagerController implements IController
     }
 
     /**
-     * Vrati obsah stranky se seznamem rek
+     * Vrati obsah stranky
      * @param string $pageTitle     Nazev stranky.
      * @return string               Vypis v sablone.
      */

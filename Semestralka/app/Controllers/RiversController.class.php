@@ -2,6 +2,11 @@
 // nactu rozhrani kontroleru
 require_once(DIRECTORY_CONTROLLERS."/IController.interface.php");
 
+/**
+ * Kontroller se stara o vypis vsech rek
+ * @author Kment
+ * Class RiversController
+ */
 class RiversController implements IController
 {
 
@@ -18,7 +23,7 @@ class RiversController implements IController
     }
 
     /**
-     * Vrati obsah stranky se seznamem rek
+     * Vrati obsah stranky
      * @param string $pageTitle     Nazev stranky.
      * @return string               Vypis v sablone.
      */
@@ -28,11 +33,8 @@ class RiversController implements IController
         $tplData = [];
         // nazev
         $tplData['title'] = $pageTitle;
-
-
-        //// nactu aktulani data uzivatelu
         $tplData['rivers'] = $this->db->getAllRivers();
-        //$tplData['vypisAll'] = $this->db->getAllReviews();
+
 
         //// vypsani prislusne sablony
         // zapnu output buffer pro odchyceni vypisu sablony

@@ -1,11 +1,7 @@
 <?php
 ///////////////////////////////////////////////////////////////////////////
-/////////// Sablona pro zobrazeni stranky se spravou uzivatelu  ///////////
+/////////// Sablona pro zobrazeni stranky s registraci uzivatelu //////////
 ///////////////////////////////////////////////////////////////////////////
-
-//// pozn.: sablona je samostatna a provadi primy vypis do vystupu:
-// -> lze testovat bez zbytku aplikace.
-// -> pri vyuziti Twigu se sablona obejde bez PHP.
 
 //// vypis sablony
 // urceni globalnich promennych, se kterymi sablona pracuje
@@ -30,8 +26,6 @@ if(isset($tplData['addUser'])){
     echo "<div class='alert alert-info'>$tplData[addUser]</div>";
 }
 
-///////////// PRO NEPRIHLASENE UZIVATELE ///////////////
-/*if(!$myDB->isUserLogged()){*/
     ?>
     <div class="container" id="inputTab text-center">
         <h4 class="text-center">Zaregistruj se aby si mohl využít všechny naše služby!</h4><br>
@@ -66,16 +60,6 @@ if(isset($tplData['addUser'])){
     </div>
     <br>
     <?php
-    ///////////// KONEC: PRO NEPRIHLASENE UZIVATELE ///////////////
-/*} else {
-///////////// PRO PRIHLASENE UZIVATELE ///////////////
-?>
-<div>
-    <b>Přihlášený uživatel se nemůže znovu registrovat.</b>
-</div>
-
-<?php
-    }*/
 // paticka
 $tplHeaders->getHTMLFooter();
 

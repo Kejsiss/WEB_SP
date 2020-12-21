@@ -2,6 +2,7 @@
 
 /**
  * Trida spravujici databazi.
+ * @author Kment
  */
 class DatabaseModel {
 
@@ -18,22 +19,13 @@ class DatabaseModel {
         $this->pdo->exec("set names utf8");
     }
 
-    public function getRiverDown($riverId, $userId) {
-
-        $q = "SELECT sjizdi.id_SJIZDI, sjizdi.datum_sjezdu FROM sjizdi WHERE sjizdi.id_reka = :riverId AND sjizdi.id_uzivatel = :userId";
-
-        $res = $this->pdo->prepare($q);
-        $res->bindValue("userId",$userId);
-        $res->bindValue("riverId",$riverId);
-
-
-        if ($res->execute()) {
-            return $res->fetchAll();
-        }
-        else { return null;}
-
-    }
-
+    /**
+     * Metoda pridava reku
+     * @param string $nazev
+     * @param int $delka
+     * @param int $pocet_jezu
+     * @return bool
+     */
     public function addRiver(string $nazev, int $delka, int $pocet_jezu):bool{
 
         $nazev = htmlspecialchars($nazev);
@@ -56,6 +48,18 @@ class DatabaseModel {
         }
     }
 
+    /**
+     * Metoda pridava kemp
+     * @param string $nazev
+     * @param int $kapacita
+     * @param int $cena_za_noc
+     * @param string $parkoviste
+     * @param string $wc
+     * @param string $sprchy
+     * @param string $restaurace
+     * @param int $riverId
+     * @return bool
+     */
     public function addCamp(string $nazev, int $kapacita, int $cena_za_noc, string $parkoviste, string $wc, string $sprchy, string $restaurace, int $riverId):bool{
 
         $nazev = htmlspecialchars($nazev);
@@ -90,6 +94,14 @@ class DatabaseModel {
         }
     }
 
+    /**
+     * Pridava recenzi rece
+     * @param int $userId
+     * @param string $date
+     * @param string $review
+     * @param int $riverId
+     * @return bool
+     */
     public function addRiverReview(int $userId, string $date, string $review, int $riverId):bool{
 
         $date = htmlspecialchars($date);
@@ -116,6 +128,14 @@ class DatabaseModel {
 
     }
 
+    /**
+     * Pridava recenzi kempu
+     * @param string $date
+     * @param string $review
+     * @param int $riverId
+     * @param int $campId
+     * @return bool
+     */
     public function addCampReview(string $date, string $review, int $riverId, int $campId):bool{
 
         $date = htmlspecialchars($date);
@@ -143,6 +163,13 @@ class DatabaseModel {
     }
 
 
+    ///////////////////KONEC ADD////////////////////////////////////////////////////////////////
+
+    /**
+     * Metoda vybira recenze rek podle ID uzivatele
+     * @param int $userId
+     * @return array|null
+     */
     public function getRiversReviewsByUser(int $userId){
 
         $userId = htmlspecialchars($userId);
@@ -163,6 +190,11 @@ class DatabaseModel {
 
     }
 
+    /**
+     * Metoda vybira recenze kempu podle ID uzivatele
+     * @param int $userId
+     * @return array|null
+     */
     public function getCampsReviewsByUser(int $userId){
 
         $userId = htmlspecialchars($userId);
@@ -182,12 +214,20 @@ class DatabaseModel {
 
     }
 
-
+    /**
+     * Predava vsechny reky
+     * @return array
+     */
     public function getAllRivers():array{
-        $q = "SELECT * FROM ".TABLE_REKA;
+        $q = "SELECT * FROM ".TABLE_REKA." ORDER BY nazev";
         return $this->pdo->query($q)->fetchAll();
     }
 
+    /**
+     * Vybira vsechny sjezdy uzivatele dle ID
+     * @param int $userId
+     * @return array|null
+     */
     public function getAllUserRivers(int $userId){
 
         $userId = htmlspecialchars($userId);
@@ -204,6 +244,11 @@ class DatabaseModel {
         else { return null;}
     }
 
+    /**
+     * Vybira vsechny recenze dane reky
+     * @param int $riverId
+     * @return array|null
+     */
     public function getReviewByRiver(int $riverId){
 
         $riverId = htmlspecialchars($riverId);
@@ -222,11 +267,22 @@ class DatabaseModel {
         else { return null;}
     }
 
+    /**
+     * Predava vsechny kempy
+     * @return array
+     */
     public function getAllCamps():array{
-        $q = "SELECT * FROM ".TABLE_TABORISTE;
+        $q = "SELECT taboriste.id_TABORISTE, taboriste.id_reka, taboriste.nazev, taboriste.kapacita, taboriste.cena_za_noc, taboriste.parkoviste, taboriste.wc,
+              taboriste.sprchy, taboriste.restaurace, reka.nazev AS reka FROM taboriste, reka WHERE 
+              taboriste.id_reka = reka.id_REKA ORDER by taboriste.nazev";
         return $this->pdo->query($q)->fetchAll();
     }
 
+    /**
+     * Vybira vsechny recenze daneho kempu
+     * @param int $riverId
+     * @return array|null
+     */
     public function getReviewByCamp(int $campId){
 
         $campId = htmlspecialchars($campId);
@@ -247,6 +303,59 @@ class DatabaseModel {
     }
 
 
+    /**
+     * Vrati id sjizdi dle uzivatele
+     * @param $userId
+     * @return int
+     */
+    private function getSjizdiID($userId):int {
+
+        $userId = htmlspecialchars($userId);
+
+        $q = "SELECT id_SJIZDI FROM ".TABLE_SJIZDI." WHERE ".TABLE_SJIZDI.".id_uzivatel = :userId";
+
+        $res = $this->pdo->prepare($q);
+        $res->bindValue("userId",$userId);
+
+        if ($res->execute()) {
+            // neni false
+            return $res->fetchColumn();
+        }
+    }
+
+
+    /**
+     * Vybira sjidi dle id reky a id uzivatele
+     * @param $riverId
+     * @param $userId
+     * @return array|null
+     */
+    public function getRiverDown($riverId, $userId) {
+
+        $q = "SELECT sjizdi.id_SJIZDI, sjizdi.datum_sjezdu FROM sjizdi WHERE sjizdi.id_reka = :riverId AND sjizdi.id_uzivatel = :userId";
+        $res = $this->pdo->prepare($q);
+        $res->bindValue("userId",$userId);
+        $res->bindValue("riverId",$riverId);
+
+
+        if ($res->execute())
+        {
+            $vystup = $res->fetchAll();
+            return $vystup;
+        }
+        else { return null;}
+
+    }
+
+
+    /////////////////////////KONEC GET//////////////////////////////////////////////////////////
+
+
+    /**
+     * Smaze recenzi reky
+     * @param int $reviewId
+     * @return bool
+     */
     public function deleteRiverReview(int $reviewId):bool {
 
         $reviewId = htmlspecialchars($reviewId);
@@ -266,6 +375,11 @@ class DatabaseModel {
         }
     }
 
+    /**
+     * Smaze recenzi kempu
+     * @param int $reviewId
+     * @return bool
+     */
     public function deleteCampReview(int $reviewId):bool {
 
         $reviewId = htmlspecialchars($reviewId);
@@ -285,6 +399,11 @@ class DatabaseModel {
         }
     }
 
+    /**
+     * Smaze vsechny recenze rek uzivatele
+     * @param int $userId
+     * @return bool
+     */
     public function deleteAllUserRiverReviews(int $userId):bool{
 
         $userId = htmlspecialchars($userId);
@@ -304,6 +423,11 @@ class DatabaseModel {
         }
     }
 
+    /**
+     * Smaze vsechny recenze kempu uzivatele
+     * @param int $userId
+     * @return bool
+     */
     public function deleteAllUserCampsReviews(int $userId):bool{
 
         $sjizdiId = $this->getSjizdiID($userId);
@@ -323,20 +447,7 @@ class DatabaseModel {
         }
     }
 
-    private function getSjizdiID($userId):int {
+    /////////////////////////KONEC DELETE//////////////////////////////////////////////////////////
 
-        $userId = htmlspecialchars($userId);
-
-        $q = "SELECT id_SJIZDI FROM ".TABLE_SJIZDI." WHERE ".TABLE_SJIZDI.".id_uzivatel = :userId";
-
-        $res = $this->pdo->prepare($q);
-        $res->bindValue("userId",$userId);
-
-        if ($res->execute()) {
-            // neni false
-            return $res->fetchColumn();
-        }
-    }
 }
-
 ?>

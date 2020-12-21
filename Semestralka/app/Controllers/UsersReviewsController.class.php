@@ -2,6 +2,11 @@
 // nactu rozhrani kontroleru
 require_once(DIRECTORY_CONTROLLERS."/IController.interface.php");
 
+/**
+ * Kontroller se stara o vypis vsech uzivatelskych recenzi
+ * @author Kment
+ * Class UsersReviewsController
+ */
 class UsersReviewsController implements IController
 {
 
@@ -21,7 +26,7 @@ class UsersReviewsController implements IController
     }
 
     /**
-     * Vrati obsah stranky se seznamem rek
+     * Vrati obsah stranky
      * @param string $pageTitle     Nazev stranky.
      * @return string               Vypis v sablone.
      */

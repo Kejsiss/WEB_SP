@@ -19,7 +19,7 @@
     define("TABLE_REKA","reka");
     define("TABLE_TABORISTE","taboriste");
 
-//// Dostupne stranky webu ////
+
 
 /** Adresar kontroleru. */
 const DIRECTORY_CONTROLLERS = "app\Controllers";
@@ -28,7 +28,7 @@ const DIRECTORY_MODELS = "app\Models";
 /** Adresar sablon */
 const DIRECTORY_VIEWS = "app\Views";
 
-
+//// Dostupne stranky webu ////
 
 /** Klic defaultni webove stranky. */
 const DEFAULT_WEB_PAGE_KEY = "domov";
